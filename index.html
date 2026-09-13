@@ -30,7 +30,6 @@
 
         body {
             background-color: var(--wood-dark);
-            /* Corak Samping/Songket Klasik */
             background-image: radial-gradient(var(--royal-red) 1px, transparent 1px), radial-gradient(var(--gold) 1px, var(--wood-dark) 1px);
             background-size: 40px 40px;
             background-position: 0 0, 20px 20px;
@@ -69,7 +68,7 @@
             color: var(--gold-light);
         }
 
-        /* PAPAN SKOR DIRIKAN MOHOR */
+        /* PAPAN SKOR */
         .score-board {
             position: sticky;
             top: 15px;
@@ -159,40 +158,44 @@
             opacity: 0.6;
         }
 
-        /* BENAR / PALSU */
-        .tf-grid {
-            display: flex;
-            gap: 15px;
+        /* VOICE INPUT STYLING */
+        .voice-box {
+            text-align: center;
+            background: #1A0F0A;
+            border: 1.5px dashed var(--gold);
+            padding: 20px;
+            border-radius: 10px;
         }
 
-        .tf-btn {
-            flex: 1;
-            background: #1A0F0A;
-            border: 1.5px solid var(--gold);
-            color: var(--text-light);
-            padding: 12px;
-            border-radius: 8px;
+        .mic-btn {
+            background: linear-gradient(135deg, var(--royal-red), #4A0E0E);
+            border: 2px solid var(--gold);
+            color: var(--gold-light);
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 1.1rem;
             font-weight: 700;
             cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
             transition: all 0.2s;
         }
 
-        .tf-btn:hover {
-            background: var(--royal-red);
-            border-color: #FFF;
-            transform: translateY(-2px);
+        .mic-btn:hover {
+            transform: scale(1.05);
+            background: var(--gold);
+            color: #000;
         }
 
-        .tf-btn.correct {
+        .mic-btn.listening {
             background: var(--accent-green) !important;
-            border-color: #A7F3D0 !important;
             color: #FFF !important;
+            animation: pulse 1.5s infinite;
         }
 
-        .tf-btn.wrong {
-            background: var(--royal-red) !important;
-            border-color: #F43F5E !important;
-            opacity: 0.6;
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
         }
 
         /* ISIAN KLASIK */
@@ -297,13 +300,13 @@
         </div>
     </div>
 
-    <!-- SOALAN 3 -->
-    <div class="q-card">
-        <div class="q-header"><i class="fa-solid fa-compass"></i> SOALAN 3 (STRATEGI LALUAN)</div>
-        <div class="q-title">Parameswara dan pengikutnya membuat keputusan melarikan diri mengikut jalan laut menggunakan kapal.</div>
-        <div class="tf-grid">
-            <button class="tf-btn" onclick="checkQ(this, true, 5)">BENAR</button>
-            <button class="tf-btn" onclick="checkQ(this, false, 5)">PALSU</button>
+    <!-- SOALAN 3 (MODUL SUARA / VOICE INPUT) -->
+    <div class="q-card" id="q3-card">
+        <div class="q-header"><i class="fa-solid fa-microphone-lines"></i> SOALAN 3 (CABARAN SUARA: BENAR ATAU PALSU)</div>
+        <div class="q-title">Parameswara dan pengikutnya membuat keputusan melarikan diri mengikut jalan laut menggunakan kapal. <br><small style="color:var(--gold-light);">Tekan butang mikrofon dan sebut perkataan: <b>"BENAR"</b> atau <b>"PALSU"</b></small></div>
+        <div class="voice-box">
+            <button class="mic-btn" id="mic-btn" onclick="startVoiceRecognition()"><i class="fa-solid fa-microphone"></i> Tekan & Sebut (Benar / Palsu)</button>
+            <p id="voice-status" style="margin-top: 15px; font-weight: 600; color: var(--gold-light);">Status: Menunggu arahan suara...</p>
         </div>
     </div>
 
@@ -348,6 +351,7 @@
     let score = 0;
     let answeredQ = 0;
     let selectedChipText = "";
+    let q3Answered = false;
 
     // KESAN BUNYI KLASIK (Web Audio API)
     function playSound(isCorrect) {
@@ -382,6 +386,83 @@
             confetti({ particleCount: 20, spread: 50, origin: { y: 0.7 } });
         } else {
             btn.classList.add('wrong');
+            playSound(false);
+        }
+
+        document.getElementById('score-text').innerText = score + " / 25 MATA";
+        checkCompletion();
+    }
+
+    // FUNGSI CAM SUARA (SPEECH RECOGNITION) UNTUK SOALAN 3
+    function startVoiceRecognition() {
+        if (q3Answered) return;
+
+        window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        if (!window.SpeechRecognition) {
+            alert("Maaf, pelayar web (browser) anda tidak menyokong fungsi suara. Sila gunakan Google Chrome.");
+            return;
+        }
+
+        const recognition = new SpeechRecognition();
+        recognition.lang = 'ms-MY'; // Tetapan Bahasa Melayu
+        recognition.interimResults = false;
+        recognition.maxAlternatives = 1;
+
+        const micBtn = document.getElementById('mic-btn');
+        const statusText = document.getElementById('voice-status');
+
+        micBtn.classList.add('listening');
+        micBtn.innerText = "Sila bercakap sekarang...";
+        statusText.innerText = "Status: Mendengar suara anda...";
+
+        recognition.start();
+
+        recognition.onresult = function(event) {
+            let speechResult = event.results[0][0].transcript.trim().toLowerCase();
+            statusText.innerText = `Anda menyebut: "${speechResult}"`;
+            
+            // Semak sama ada jawapan mengandungi perkataan 'benar' atau 'palsu'
+            if (speechResult.includes('benar')) {
+                handleVoiceAnswer(true, 5);
+            } else if (speechResult.includes('palsu')) {
+                handleVoiceAnswer(false, 5);
+            } else {
+                statusText.innerText = `Tidak dapat dikenalpasti ("${speechResult}"). Cuba tekan semula.`;
+                micBtn.classList.remove('listening');
+                micBtn.innerText = "Tekan & Cuba Semula";
+            }
+        };
+
+        recognition.onerror = function(event) {
+            statusText.innerText = "Ralat pengesanan suara. Sila cuba lagi.";
+            micBtn.classList.remove('listening');
+            micBtn.innerText = "Tekan & Cuba Semula";
+        };
+
+        recognition.onend = function() {
+            if (!q3Answered) {
+                micBtn.classList.remove('listening');
+            }
+        };
+    }
+
+    function handleVoiceAnswer(isCorrect, pts) {
+        q3Answered = true;
+        const micBtn = document.getElementById('mic-btn');
+        micBtn.disabled = true;
+        micBtn.classList.remove('listening');
+
+        if (isCorrect) {
+            micBtn.style.background = "var(--accent-green)";
+            micBtn.style.borderColor = "#A7F3D0";
+            micBtn.innerText = "✨ BETUL! (Jawapan Diterima)";
+            score += pts;
+            playSound(true);
+            confetti({ particleCount: 20, spread: 50, origin: { y: 0.7 } });
+        } else {
+            micBtn.style.background = "var(--royal-red)";
+            micBtn.style.borderColor = "#F43F5E";
+            micBtn.innerText = "❌ SALAH! (Jawapan Salah)";
             playSound(false);
         }
 
