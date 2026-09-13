@@ -19,7 +19,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            overflow: hidden;
+            overflow-x: hidden;
             position: relative;
         }
 
@@ -33,15 +33,14 @@
             z-index: 100;
         }
 
-        /* Latar belakang air bergerak lembut */
         .water-bg {
             position: absolute;
             bottom: 0;
             left: 0;
             width: 100%;
-            height: 35vh;
+            height: 30vh;
             background: linear-gradient(to top, #1d3557, #457b9d);
-            opacity: 0.8;
+            opacity: 0.7;
             z-index: 1;
             border-top: 4px solid #ffd700;
         }
@@ -49,7 +48,7 @@
         .game-container {
             width: 90%;
             max-width: 780px;
-            background: rgba(255, 255, 255, 0.95);
+            background: rgba(255, 255, 255, 0.96);
             border: 5px solid #d4af37;
             border-radius: 24px;
             padding: 30px;
@@ -57,17 +56,38 @@
             position: relative;
             z-index: 10;
             text-align: center;
+            margin: 20px 0;
         }
 
-        /* Kapal animasi bebas merentasi skrin atas */
-        .moving-ship-container {
+        /* Kapal Animasi Dinamik di Atas Kotak */
+        .ship-voyage-bar {
+            width: 100%;
+            height: 45px;
+            background: #fff8e1;
+            border: 2px dashed #d4af37;
+            border-radius: 12px;
+            position: relative;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            padding: 0 15px;
+        }
+
+        .moving-ship {
             position: absolute;
-            top: -65px;
-            left: 10%;
-            font-size: 3rem;
-            transition: left 1s cubic-bezier(0.34, 1.56, 0.64, 1);
-            z-index: 15;
-            filter: drop-shadow(0 5px 8px rgba(0,0,0,0.4));
+            left: 5%;
+            font-size: 2.2rem;
+            transition: left 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transform: translateY(-2px);
+            filter: drop-shadow(0 3px 4px rgba(0,0,0,0.3));
+        }
+
+        .voyage-label {
+            font-size: 0.9rem;
+            font-weight: bold;
+            color: #795548;
+            width: 100%;
+            text-align: right;
         }
 
         .header-info {
@@ -93,6 +113,7 @@
             padding: 20px;
             border-radius: 14px;
             border: 2px solid #ffe082;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
         }
 
         .cards-grid {
@@ -106,13 +127,14 @@
             background: #ffffff;
             border: 2px solid #d4af37;
             border-radius: 12px;
-            padding: 15px;
+            padding: 16px;
             cursor: pointer;
             transition: all 0.2s ease;
             font-size: 1.05rem;
             font-weight: 600;
             color: #3e2723;
             box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            text-align: left;
         }
 
         .option-card:hover {
@@ -182,14 +204,17 @@
         <!-- SKRIN MULA -->
         <div id="startScreen" style="padding: 20px;">
             <h1 style="color: #4a150b; font-size: 1.8rem; margin-bottom: 10px;">EPISOD 5: SENING UJONG & SUNGAI BERTAM</h1>
-            <p style="color: #5d4037; font-size: 1.05rem; margin-bottom: 25px;">Jelajahi pengembaraan tanpa kotak kaku! Jawab 5 soalan (5 markah setiap satu) dan lihat kapal berlayar ke destinasi.</p>
+            <p style="color: #5d4037; font-size: 1.05rem; margin-bottom: 25px;">Jelajahi pengembaraan tanpa kotak kaku! Jawab 5 soalan (5 markah setiap satu) dan saksikan kapal berlayar merentasi skrin.</p>
             <button class="btn-start" onclick="startGame()">MULA KEMBARA ⛵</button>
         </div>
 
         <!-- SKRIN PERMAINAN -->
         <div id="gameScreen" class="hidden">
-            <!-- Kapal bergerak bebas di atas kotak permainan -->
-            <div class="moving-ship-container" id="shipObj">⛵</div>
+            <!-- Jalur Kapal Berlayar Lancar -->
+            <div class="ship-voyage-bar">
+                <div class="moving-ship" id="shipObj">⛵</div>
+                <div class="voyage-label" id="voyageText">Pelayaran: Sening Ujong</div>
+            </div>
 
             <div class="header-info">
                 <span id="questionNum">Soalan 1/5</span>
@@ -273,27 +298,32 @@
             {
                 q: "Selepas meninggalkan Muar, apakah lokasi seterusnya yang dituju oleh Parameswara dalam perjalanan baginda?",
                 options: ["Sening Ujong", "Temasik", "Melaka"],
-                correct: 0
+                correct: 0,
+                voyage: "Pelayaran: Menuju Sening Ujong"
             },
             {
                 q: "Apakah tindakan penting yang dilakukan oleh Parameswara semasa berada di Sening Ujong?",
                 options: ["Melantik seorang wakil pemerintah untuk menguruskan kawasan tersebut", "Membina kota pertahanan batu yang besar dan kukuh", "Membuka pelabuhan bebas cukai antarabangsa"],
-                correct: 0
+                correct: 0,
+                voyage: "Pelayaran: Di Sening Ujong"
             },
             {
                 q: "Selepas meninggalkan Sening Ujong, di manakah tempat persinggahan seterusnya bagi Parameswara dan pengikutnya?",
                 options: ["Muara Sungai Bertam", "Pahang Tua", "Pulau Pinang"],
-                correct: 0
+                correct: 0,
+                voyage: "Pelayaran: Ke Sungai Bertam"
             },
             {
                 q: "Apakah ciri persekitaran fizikal yang terdapat di lokasi persinggahan baginda di muara Sungai Bertam?",
                 options: ["Sebuah perkampungan nelayan", "Sebuah kota istana yang tersergam indah", "Kawasan padang pasir yang luas"],
-                correct: 0
+                correct: 0,
+                voyage: "Pelayaran: Muara Sungai Bertam"
             },
             {
                 q: "[SOALAN KBAT] Mengapakah tindakan melantik wakil pemerintah di wilayah yang disinggahi seperti Sening Ujong merupakan langkah kepimpinan yang sangat strategik?",
                 options: ["Bagi memastikan kestabilan pentadbiran dan keselamatan wilayah tersebut sentiasa terpelihara", "Supaya baginda tidak perlu lagi kembali semula ke wilayah berkenaan selama-lamanya", "Untuk menyerahkan kuasa penuh kepada penduduk tempatan tanpa sebarang syarat"],
-                correct: 0
+                correct: 0,
+                voyage: "Destinasi Tercapai! 🏆"
             }
         ];
 
@@ -316,9 +346,10 @@
             let q = questions[currentIdx];
             document.getElementById('questionNum').innerText = `Soalan ${currentIdx + 1}/5`;
             document.getElementById('questionText').innerText = q.q;
+            document.getElementById('voyageText').innerText = q.voyage;
 
-            // Kapal bergerak maju mengikut nombor soalan secara lancar di atas kotak
-            let posPercent = 10 + (currentIdx / (questions.length - 1)) * 75;
+            // Kapal bergerak maju secara lancar mengikut soalan
+            let posPercent = 5 + (currentIdx / (questions.length - 1)) * 80;
             document.getElementById('shipObj').style.left = `${posPercent}%`;
 
             let grid = document.getElementById('optionsGrid');
@@ -366,7 +397,6 @@
             }, 1500);
         }
 
-        // Konfeti ringan
         const canvas = document.getElementById('confetti-canvas');
         const ctx = canvas.getContext('2d');
         let particles = [];
