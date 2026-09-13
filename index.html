@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Episod 1: Pelarian Dari Palembang</title>
+    <title>Episod 2: Persinggahan Di Temasik</title>
     <!-- Google Fonts & Icons -->
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -12,13 +12,14 @@
 
     <style>
         :root {
-            --gold: #D4AF37;
-            --gold-light: #F3E5AB;
-            --royal-red: #800000;
-            --wood-dark: #1A0F0A;
-            --wood-card: #2C1A12;
-            --text-light: #F7E7CE;
-            --accent-green: #2E7D32;
+            --gold: #F59E0B;
+            --gold-light: #FEF3C7;
+            --sea-dark: #0F172A;
+            --sea-card: #1E293B;
+            --ocean-blue: #0284C7;
+            --royal-red: #991B1B;
+            --text-light: #F8FAFC;
+            --accent-green: #10B981;
         }
 
         * {
@@ -29,10 +30,11 @@
         }
 
         body {
-            background-color: var(--wood-dark);
-            background-image: radial-gradient(var(--royal-red) 1px, transparent 1px), radial-gradient(var(--gold) 1px, var(--wood-dark) 1px);
-            background-size: 40px 40px;
-            background-position: 0 0, 20px 20px;
+            background-color: var(--sea-dark);
+            /* Corak Lautan & Gelombang Klasik */
+            background-image: radial-gradient(#1E3A8A 1.5px, transparent 1.5px), radial-gradient(#0284C7 1.5px, var(--sea-dark) 1.5px);
+            background-size: 36px 36px;
+            background-position: 0 0, 18px 18px;
             color: var(--text-light);
             padding: 20px;
             min-height: 100vh;
@@ -43,16 +45,15 @@
             margin: 0 auto;
         }
 
-        /* HEADER KLASIK */
+        /* HEADER KLASIK TEMASIK */
         header {
             text-align: center;
             margin-bottom: 25px;
-            background: linear-gradient(135deg, #4A0E0E, var(--royal-red));
+            background: linear-gradient(135deg, #0369A1, #0F172A);
             border: 3px solid var(--gold);
             padding: 20px;
             border-radius: 15px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.8);
-            position: relative;
+            box-shadow: 0 10px 25px rgba(2, 132, 199, 0.4);
         }
 
         header h1 {
@@ -68,12 +69,12 @@
             color: var(--gold-light);
         }
 
-        /* PAPAN SKOR */
+        /* PAPAN SKOR MOHOR TEMASIK */
         .score-board {
             position: sticky;
             top: 15px;
             z-index: 100;
-            background: linear-gradient(180deg, #3D2314, #1A0F0A);
+            background: linear-gradient(180deg, #1E293B, #0F172A);
             border: 2px solid var(--gold);
             padding: 12px 25px;
             border-radius: 50px;
@@ -81,22 +82,21 @@
             font-size: 1.2rem;
             font-weight: 700;
             color: var(--gold);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.9);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.8);
             margin-bottom: 25px;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
-        /* SOALAN CARD */
+        /* CARD SOALAN */
         .q-card {
-            background: var(--wood-card);
+            background: var(--sea-card);
             border: 2px solid var(--gold);
             border-radius: 15px;
             padding: 20px;
             margin-bottom: 20px;
             box-shadow: 0 8px 20px rgba(0,0,0,0.6);
-            position: relative;
         }
 
         .q-header {
@@ -129,7 +129,7 @@
         }
 
         .opt-btn {
-            background: #1A0F0A;
+            background: #0F172A;
             border: 1.5px solid var(--gold);
             color: var(--text-light);
             padding: 12px 15px;
@@ -141,7 +141,7 @@
         }
 
         .opt-btn:hover {
-            background: var(--royal-red);
+            background: var(--ocean-blue);
             border-color: #FFF;
             transform: translateY(-2px);
         }
@@ -161,14 +161,14 @@
         /* VOICE INPUT STYLING */
         .voice-box {
             text-align: center;
-            background: #1A0F0A;
+            background: #0F172A;
             border: 1.5px dashed var(--gold);
             padding: 20px;
             border-radius: 10px;
         }
 
         .mic-btn {
-            background: linear-gradient(135deg, var(--royal-red), #4A0E0E);
+            background: linear-gradient(135deg, var(--ocean-blue), #0369A1);
             border: 2px solid var(--gold);
             color: var(--gold-light);
             padding: 15px 30px;
@@ -200,7 +200,7 @@
 
         /* ISIAN KLASIK */
         .word-bank {
-            background: #1A0F0A;
+            background: #0F172A;
             border: 1px dashed var(--gold);
             padding: 10px;
             border-radius: 8px;
@@ -223,7 +223,7 @@
             min-width: 100px;
             height: 32px;
             border-bottom: 2px solid var(--gold);
-            background: #1A0F0A;
+            background: #0F172A;
             vertical-align: middle;
             text-align: center;
             line-height: 30px;
@@ -233,10 +233,10 @@
             padding: 0 8px;
         }
 
-        /* MOHOR PENUTUP */
+        /* MOHOR PENUTUP TEMASIK */
         .final-seal {
             text-align: center;
-            background: linear-gradient(135deg, #4A0E0E, #1A0F0A);
+            background: linear-gradient(135deg, #0369A1, #0F172A);
             border: 3px double var(--gold);
             padding: 30px;
             border-radius: 15px;
@@ -254,7 +254,7 @@
             font-weight: 900;
             border-radius: 50px;
             cursor: pointer;
-            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.4);
+            box-shadow: 0 5px 15px rgba(245, 158, 11, 0.4);
         }
 
         .btn-seal:hover {
@@ -266,44 +266,44 @@
 
 <div class="container">
     <header>
-        <h1><i class="fa-solid fa-ship"></i> EPISOD 1: PELARIAN DARI PALEMBANG</h1>
-        <p>Misi 1: Buktikan Pengetahuan Anda & Buka Mohor Keberangkatan Parameswara!</p>
+        <h1><i class="fa-solid fa-anchor"></i> EPISOD 2: PERSINGGAHAN DI TEMASIK</h1>
+        <p>Misi 2: Kuasai Peristiwa Di Temasik & Buka Gerbang Kembara Ke Seterusnya!</p>
     </header>
 
     <!-- PAPAN SKOR -->
     <div class="score-board">
-        <span><i class="fa-solid fa-coins"></i> SKOR EMAS EPISOD 1:</span>
+        <span><i class="fa-solid fa-coins"></i> SKOR EMAS EPISOD 2:</span>
         <span id="score-text">0 / 25 MATA</span>
     </div>
 
     <!-- SOALAN 1 -->
     <div class="q-card">
-        <div class="q-header"><i class="fa-solid fa-crown"></i> SOALAN 1 (FAKTA SALASILAH)</div>
-        <div class="q-title">Sebelum menjadi pengasas Melaka, siapakah Parameswara dalam hierarki pemerintahan Palembang?</div>
+        <div class="q-header"><i class="fa-solid fa-user-ninja"></i> SOALAN 1 (PEMERINTAH TEMASIK)</div>
+        <div class="q-title">Sewaktu Parameswara dan pengikutnya tiba di Temasik, siapakah yang menjadi pemerintah di situ?</div>
         <div class="options-grid">
-            <button class="opt-btn" onclick="checkQ(this, true, 5)"><i class="fa-solid fa-gem"></i> A. Putra Raja / Pangeran Kerajaan Palembang</button>
-            <button class="opt-btn" onclick="checkQ(this, false, 5)"><i class="fa-solid fa-shield"></i> B. Panglima Angkatan Laut Srivijaya</button>
-            <button class="opt-btn" onclick="checkQ(this, false, 5)"><i class="fa-solid fa-wheat-awn"></i> C. Saudagar Kayu Rempah-Ratus</button>
-            <button class="opt-btn" onclick="checkQ(this, false, 5)"><i class="fa-solid fa-anchor"></i> D. Ketua Perkampungan Nelayan</button>
+            <button class="opt-btn" onclick="checkQ(this, true, 5)"><i class="fa-solid fa-crown"></i> A. Temagi (Wakil Pemerintah Kerajaan Siam)</button>
+            <button class="opt-btn" onclick="checkQ(this, false, 5)"><i class="fa-solid fa-shield"></i> B. Sang Nila Utama</button>
+            <button class="opt-btn" onclick="checkQ(this, false, 5)"><i class="fa-solid fa-ship"></i> C. Hang Tuah</button>
+            <button class="opt-btn" onclick="checkQ(this, false, 5)"><i class="fa-solid fa-leaf"></i> D. Raja Chulan</button>
         </div>
     </div>
 
     <!-- SOALAN 2 -->
     <div class="q-card">
-        <div class="q-header"><i class="fa-solid fa-burst"></i> SOALAN 2 (PUNCA ANCAMAN)</div>
-        <div class="q-title">Apakah peristiwa besar yang memaksa Parameswara meninggalkan tanah air baginda di Palembang?</div>
+        <div class="q-header"><i class="fa-solid fa-map-location-dot"></i> SOALAN 2 (KEISTIMEWAAN TEMASIK)</div>
+        <div class="q-title">Apakah faktor utama yang menyebabkan Parameswara sangat tertarik untuk menguasai Temasik?</div>
         <div class="options-grid">
-            <button class="opt-btn" onclick="checkQ(this, false, 5)">A. Letusan gunung berapi yang dahsyat</button>
-            <button class="opt-btn" onclick="checkQ(this, true, 5)">B. Serangan ketenteraan daripada Kerajaan Majapahit</button>
-            <button class="opt-btn" onclick="checkQ(this, false, 5)">C. Ancaman gelombang laut dan taufan</button>
-            <button class="opt-btn" onclick="checkQ(this, false, 5)">D. Pertikaian dengan orang laut</button>
+            <button class="opt-btn" onclick="checkQ(this, false, 5)">A. Tanah yang sangat subur untuk pertanian padi</button>
+            <button class="opt-btn" onclick="checkQ(this, true, 5)">B. Kedudukannya yang strategik sebagai pelabuhan perdagangan</button>
+            <button class="opt-btn" onclick="checkQ(this, false, 5)">C. Kerana terdapat banyak lombong emas di situ</button>
+            <button class="opt-btn" onclick="checkQ(this, false, 5)">D. Kerana pulau itu tiada penghuni langsung</button>
         </div>
     </div>
 
     <!-- SOALAN 3 (MODUL SUARA / VOICE INPUT) -->
     <div class="q-card" id="q3-card">
         <div class="q-header"><i class="fa-solid fa-microphone-lines"></i> SOALAN 3 (CABARAN SUARA: BENAR ATAU PALSU)</div>
-        <div class="q-title">Parameswara dan pengikutnya membuat keputusan melarikan diri mengikut jalan laut menggunakan kapal. <br><small style="color:var(--gold-light);">Tekan butang mikrofon dan sebut perkataan: <b>"BENAR"</b> atau <b>"PALSU"</b></small></div>
+        <div class="q-title">Parameswara telah membunuh Temagi selepas beberapa hari disambut baik olehnya untuk mengambil alih kuasa. <br><small style="color:var(--gold-light);">Tekan butang mikrofon dan sebut perkataan: <b>"BENAR"</b> atau <b>"PALSU"</b></small></div>
         <div class="voice-box">
             <button class="mic-btn" id="mic-btn" onclick="startVoiceRecognition()"><i class="fa-solid fa-microphone"></i> Tekan & Sebut (Benar / Palsu)</button>
             <p id="voice-status" style="margin-top: 15px; font-weight: 600; color: var(--gold-light);">Status: Menunggu arahan suara...</p>
@@ -313,35 +313,35 @@
     <!-- SOALAN 4 -->
     <div class="q-card">
         <div class="q-header"><i class="fa-solid fa-pen-fancy"></i> SOALAN 4 (ISI TEMPAT KOSONG)</div>
-        <div class="q-title">Pilih kata tepat dari Peti Kata di bawah untuk melengkapkan pernyataan:</div>
+        <div class="q-title">Pilih kata tepat dari Peti Kata untuk melengkapkan sejarah Temasik:</div>
         
         <div class="word-bank">
-            <span class="word-chip" onclick="selectChip(this)">Temasik</span>
-            <span class="word-chip" onclick="selectChip(this)">Siam</span>
+            <span class="word-chip" onclick="selectChip(this)">Singapura</span>
+            <span class="word-chip" onclick="selectChip(this)">Brunei</span>
         </div>
 
         <div style="font-size: 0.95rem; line-height: 2;">
-            Destinasi persinggahan awal yang dituju oleh rombongan kapal Parameswara selepas melarikan diri dari Palembang ialah <span class="blank-spot" id="b1" onclick="fillBlank(this, 'Temasik', 5)"></span>.
+            Temasik merupakan nama kuno / nama asal bagi pulau <span class="blank-spot" id="b2" onclick="fillBlank(this, 'Singapura', 5)"></span> pada zaman moden hari ini.
         </div>
     </div>
 
     <!-- SOALAN 5 -->
     <div class="q-card">
-        <div class="q-header"><i class="fa-solid fa-brain"></i> SOALAN 5 (ANALISIS KBAT STRATEGI)</div>
-        <div class="q-title">[ARAS KBAT] Mengapakah keputusan Parameswara berundur dari Palembang dianggap tindakan bijak, dan bukan satu tanda kekalahan pengecut?</div>
+        <div class="q-header"><i class="fa-solid fa-brain"></i> SOALAN 5 (ANALISIS KBAT KESAN REAKSI)</div>
+        <div class="q-title">[ARAS KBAT] Apakah kesan jangka panjang daripada tindakan Parameswara menguasai Temasik secara paksa?</div>
         <div class="options-grid">
-            <button class="opt-btn" onclick="checkQ(this, true, 5)">A. Mengelakkan pertumpahan darah rakyat & menyusun semula kekuatan di tempat baharu</button>
-            <button class="opt-btn" onclick="checkQ(this, false, 5)">B. Baginda mahu mencari harta karun di lautan luas</button>
-            <button class="opt-btn" onclick="checkQ(this, false, 5)">C. Kerana tentera Majapahit tidak tahu berenang</button>
-            <button class="opt-btn" onclick="checkQ(this, false, 5)">D. Untuk menyerah kalah kepada kerajaan lain</button>
+            <button class="opt-btn" onclick="checkQ(this, true, 5)">A. Menimbulkan kemarahan Kerajaan Siam lalu mereka merancang serangan balas</button>
+            <button class="opt-btn" onclick="checkQ(this, false, 5)">B. Kerajaan Siam menghantar hadiah kegemilangan kepada Parameswara</button>
+            <button class="opt-btn" onclick="checkQ(this, false, 5)">C. Temasik menjadi pusat empayar terbesar di dunia serta-merta</button>
+            <button class="opt-btn" onclick="checkQ(this, false, 5)">D. Majapahit terus menjadi sahabat karib Parameswara</button>
         </div>
     </div>
 
-    <!-- MOHOR TAMAT -->
+    <!-- MOHOR TAMAT TEMASIK -->
     <div class="final-seal" id="seal-box">
-        <h2 style="font-family:'Cinzel'; color:var(--gold); margin-bottom:10px;"><i class="fa-solid fa-stamp"></i> MOHOR KEBERANGKATAN DIBUKA!</h2>
-        <p style="margin-bottom:20px; color:var(--gold-light);">Tahniah Ejen Sejarah! Anda berjaya menyempurnakan Episod 1!</p>
-        <button class="btn-seal" onclick="triggerSeal()"><i class="fa-solid fa-scroll"></i> CAP MOHOR DIRAJA</button>
+        <h2 style="font-family:'Cinzel'; color:var(--gold); margin-bottom:10px;"><i class="fa-solid fa-compass-drafting"></i> MOHOR TEMASIK DISAHKAN!</h2>
+        <p style="margin-bottom:20px; color:var(--gold-light);">Tahniah Ejen Sejarah! Anda berjaya membongkar Sejarah Persinggahan di Temasik!</p>
+        <button class="btn-seal" onclick="triggerSeal()"><i class="fa-solid fa-scroll"></i> CAP MOHOR TEMASIK</button>
         <div id="final-result" style="margin-top:20px; font-weight:700; font-size:1.3rem; color:#FFF;"></div>
     </div>
 
@@ -353,7 +353,7 @@
     let selectedChipText = "";
     let q3Answered = false;
 
-    // KESAN BUNYI KLASIK (Web Audio API)
+    // KESAN BUNYI LAUT / KLASIK (Web Audio API)
     function playSound(isCorrect) {
         let ctx = new (window.AudioContext || window.webkitAudioContext)();
         let osc = ctx.createOscillator();
@@ -362,13 +362,13 @@
         gain.connect(ctx.destination);
 
         if(isCorrect) {
-            osc.frequency.setValueAtTime(523.25, ctx.currentTime); // C5
-            osc.frequency.exponentialRampToValueAtTime(659.25, ctx.currentTime + 0.2); // E5
+            osc.frequency.setValueAtTime(587.33, ctx.currentTime); // D5
+            osc.frequency.exponentialRampToValueAtTime(880, ctx.currentTime + 0.25); // A5
             gain.gain.setValueAtTime(0.3, ctx.currentTime);
             osc.start();
             osc.stop(ctx.currentTime + 0.3);
         } else {
-            osc.frequency.setValueAtTime(200, ctx.currentTime);
+            osc.frequency.setValueAtTime(180, ctx.currentTime);
             gain.gain.setValueAtTime(0.3, ctx.currentTime);
             osc.start();
             osc.stop(ctx.currentTime + 0.2);
@@ -508,9 +508,9 @@
         confetti({ particleCount: 150, spread: 90, origin: { y: 0.5 } });
         let result = document.getElementById('final-result');
         if(score >= 20) {
-            result.innerHTML = "🏆 PANGKAT: <span style='color:var(--gold);'>LAKSAMANA MASA EMAS</span><br><small>Anda bersedia melayari Episod 2 (Temasik)!</small>";
+            result.innerHTML = "🏆 PANGKAT: <span style='color:var(--gold);'>PEMERINTAH LAUT TEMASIK</span><br><small>Sedia melangkah ke Episod 3 (Ancaman Siam)!</small>";
         } else {
-            result.innerHTML = "📜 PANGKAT: <span style='color:var(--gold-light);'>PENDAYUNG KELANA</span><br><small>Cuba semula untuk mendapat skor penuh 25 Mata!</small>";
+            result.innerHTML = "📜 PANGKAT: <span style='color:var(--gold-light);'>NAKODA PERAIRAN</span><br><small>Cuba semula untuk mendapat skor penuh 25 Mata!</small>";
         }
     }
 </script>
