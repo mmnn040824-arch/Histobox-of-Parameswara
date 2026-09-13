@@ -137,6 +137,8 @@
             color: #3e2723;
             box-shadow: 0 4px 8px rgba(0,0,0,0.08);
             min-height: 100px;
+            position: relative;
+            z-index: 15;
         }
 
         .option-card:hover {
@@ -193,6 +195,8 @@
             transition: transform 0.2s, box-shadow 0.2s;
             margin-top: 15px;
             font-family: 'Georgia', serif;
+            position: relative;
+            z-index: 20;
         }
 
         .btn-start:hover {
@@ -218,17 +222,10 @@
             display: none !important;
         }
 
-        .audio-controls {
+        .audio-btn {
             position: absolute;
             top: 15px;
             right: 15px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            z-index: 20;
-        }
-
-        .audio-btn {
             background: #4a150b;
             color: #ffecb3;
             border: 2px solid #b8860b;
@@ -240,12 +237,8 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            z-index: 25;
             box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-        }
-
-        .volume-slider {
-            width: 70px;
-            cursor: pointer;
         }
 
         .next-laci-box {
@@ -267,17 +260,8 @@
 
     <canvas id="confetti-canvas"></canvas>
 
-    <!-- Fail Audio Muzik Latar (Tukar 'muzik_latar.mp3' kepada nama fail lagu anda) -->
-    <audio id="bgMusic" loop>
-        <source src="muzik_latar.mp3" type="audio/mpeg">
-    </audio>
-
     <div class="game-container">
-        <!-- Kawalan Audio & Volume -->
-        <div class="audio-controls">
-            <input type="range" id="volumeSlider" class="volume-slider" min="0" max="1" step="0.05" value="0.8" title="Laraskan Kelantangan">
-            <button class="audio-btn" id="audioToggle" onclick="toggleBGM()">🎵</button>
-        </div>
+        <button class="audio-btn" id="audioToggle" onclick="toggleSound()">🎵</button>
 
         <!-- SKRIN MULA -->
         <div id="startScreen" class="start-screen">
@@ -324,79 +308,69 @@
 
     <script>
         // -------------------------------------------------------------
-        // AUDIO & PENGURUSAN MUZIK LATAR
-        C
-        const bgMusic = document.getElementById('bgMusic');
-        const volumeSlider = document.getElementById('volumeSlider');
+        // SISTEM AUDIO & MUZIK INTERAKTIF (WEB AUDIO API)
+        // -------------------------------------------------------------
+        let audioCtx = null;
+        let bgmInterval = null;
         let isMuted = false;
 
-        // Set tetapan volume permulaan
-        bgMusic.volume = volumeSlider.value;
-
-        volumeSlider.addEventListener('input', (e) => {
-            bgMusic.volume = e.target.value;
-            if(bgMusic.volume > 0 && isMuted) {
-                isMuted = false;
-                document.getElementById('audioToggle').innerText = '🎵';
+        function initAudio() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
             }
-        });
-
-        function toggleBGM() {
-            isMuted = !isMuted;
-            if (isMuted) {
-                bgMusic.pause();
-                document.getElementById('audioToggle').innerText = '🔇';
-            } else {
-                bgMusic.play().catch(e => console.log('Audio autoplay disekat pelayar'));
-                document.getElementById('audioToggle').innerText = '🎵';
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
             }
         }
 
-        // Kesan Bunyi (SFX) Menggunakan Web Audio API yang kuat
-        let audioCtx = null;
-        function initAudioCtx() {
-            if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        }
-
-        function playSoundEffect(type) {
-            initAudioCtx();
-            if(!audioCtx) return;
+        function playTone(freq, type, duration, vol = 0.1) {
+            if (isMuted || !audioCtx) return;
             try {
                 let osc = audioCtx.createOscillator();
                 let gain = audioCtx.createGain();
+                osc.type = type;
+                osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+                gain.gain.setValueAtTime(vol, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + duration);
                 osc.connect(gain);
                 gain.connect(audioCtx.destination);
-
-                if (type === 'correct') {
-                    osc.frequency.setValueAtTime(523.25, audioCtx.currentTime); // Nota C5
-                    osc.frequency.setValueAtTime(659.25, audioCtx.currentTime + 0.1); // Nota E5
-                    gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
-                    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.3);
-                    osc.start();
-                    osc.stop(audioCtx.currentTime + 0.3);
-                } else if (type === 'wrong') {
-                    osc.type = 'sawtooth';
-                    osc.frequency.setValueAtTime(150, audioCtx.currentTime);
-                    osc.frequency.setValueAtTime(100, audioCtx.currentTime + 0.15);
-                    gain.gain.setValueAtTime(0.25, audioCtx.currentTime);
-                    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.35);
-                    osc.start();
-                    osc.stop(audioCtx.currentTime + 0.35);
-                } else if (type === 'win') {
-                    let notes = [392, 523.25, 659.25, 783.99];
-                    notes.forEach((n, idx) => {
-                        let o = audioCtx.createOscillator();
-                        let g = audioCtx.createGain();
-                        o.connect(g);
-                        g.connect(audioCtx.destination);
-                        o.frequency.setValueAtTime(n, audioCtx.currentTime + (idx * 0.12));
-                        g.gain.setValueAtTime(0.2, audioCtx.currentTime + (idx * 0.12));
-                        g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + (idx * 0.12) + 0.3);
-                        o.start(audioCtx.currentTime + (idx * 0.12));
-                        o.stop(audioCtx.currentTime + (idx * 0.12) + 0.3);
-                    });
-                }
+                osc.start();
+                osc.stop(audioCtx.currentTime + duration);
             } catch(e) {}
+        }
+
+        function startBGM() {
+            initAudio();
+            if (bgmInterval) clearInterval(bgmInterval);
+            let notes = [220.00, 246.94, 293.66, 329.63, 293.66, 246.94];
+            let noteIdx = 0;
+            bgmInterval = setInterval(() => {
+                if (!isMuted) {
+                    playTone(notes[noteIdx], 'triangle', 0.4, 0.04);
+                    noteIdx = (noteIdx + 1) % notes.length;
+                }
+            }, 500);
+        }
+
+        function playSFX(type) {
+            initAudio();
+            if (isMuted) return;
+            if (type === 'correct') {
+                playTone(523.25, 'sine', 0.15, 0.2);
+                setTimeout(() => playTone(659.25, 'sine', 0.2, 0.2), 120);
+            } else if (type === 'wrong') {
+                playTone(160, 'sawtooth', 0.25, 0.2);
+            } else if (type === 'win') {
+                let winNotes = [392, 523.25, 659.25, 783.99];
+                winNotes.forEach((n, i) => {
+                    setTimeout(() => playTone(n, 'sine', 0.3, 0.25), i * 140);
+                });
+            }
+        }
+
+        function toggleSound() {
+            isMuted = !isMuted;
+            document.getElementById('audioToggle').innerText = isMuted ? '🔇' : '🎵';
         }
 
         // -------------------------------------------------------------
@@ -467,9 +441,7 @@
         let canAnswer = true;
 
         function startGame() {
-            // Mainkan lagu latar dengan kuat apabila butang mula ditekan
-            bgMusic.play().catch(e => console.log("Gagal memainkan audio automatik"));
-            
+            startBGM();
             document.getElementById('startScreen').classList.add('hidden');
             document.getElementById('gameScreen').classList.remove('hidden');
             document.getElementById('endScreen').classList.add('hidden');
@@ -510,14 +482,14 @@
 
             if (selectedIndex === q.correct) {
                 cardEl.classList.add('correct');
-                playSoundEffect('correct');
+                playSFX('correct');
                 score += 5; 
                 updateScoreUI();
                 fireConfetti(0.3);
             } else {
                 cardEl.classList.add('wrong');
                 allCards[q.correct].classList.add('correct');
-                playSoundEffect('wrong');
+                playSFX('wrong');
             }
 
             setTimeout(() => {
@@ -540,7 +512,8 @@
             document.getElementById('finalScore').innerText = score;
             document.getElementById('progressBar').style.width = `100%`;
 
-            playSoundEffect('win');
+            if (bgmInterval) clearInterval(bgmInterval);
+            playSFX('win');
             fireConfettiCelebration();
         }
 
