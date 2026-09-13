@@ -61,14 +61,14 @@
 
         .story-animation-box {
             width: 100%;
-            height: 130px;
-            background: linear-gradient(to bottom, #c8e6c9, #a5d6a7);
-            border: 3px solid #388e3c;
+            height: 140px;
+            background: linear-gradient(to bottom, #d1e7dd, #a3cfbb);
+            border: 3px solid #285238;
             border-radius: 14px;
             position: relative;
             margin-bottom: 15px;
             overflow: hidden;
-            box-shadow: inset 0 3px 6px rgba(0,0,0,0.1);
+            box-shadow: inset 0 3px 6px rgba(0,0,0,0.15);
         }
 
         #animCanvas {
@@ -189,7 +189,6 @@
             font-size: 0.85rem;
         }
 
-        /* Gaya Permainan Padankan Kad (Minigame) */
         .matching-container {
             background: #fff8e1;
             border: 2px dashed #d4af37;
@@ -305,7 +304,7 @@
                 <span>⭐ Markah: <span id="scoreText">0</span> / 35</span>
             </div>
 
-            <!-- KAWASAN KANDUNGAN UTAMA (SOALAN ATAU MINIGAME) -->
+            <!-- KAWASAN KANDUNGAN UTAMA -->
             <div id="contentArea"></div>
         </div>
 
@@ -378,11 +377,9 @@
             document.getElementById('audioToggle').innerText = isMuted ? '🔇' : '🎵';
         }
 
-        // Struktur Aliran Permainan (Gabungan Minigame Padankan Kad & Soalan Kuiz)
         const gameFlow = [
             { type: 'question', q: "Apakah peristiwa luar biasa yang disaksikan oleh Parameswara semasa baginda sedang berehat di bawah pokok Melaka?", options: ["Seekor rusa emas muncul membawa mahkota Diraja", "Hujan lebat turun dengan sangat deras secara tiba-tiba", "Seekor pelanduk putih menendang anjing pemburu baginda"], correct: 2, voyage: "📍 Peristiwa Pelanduk Putih" },
             
-            // Minigame Padankan Kad ke-1 sebelum masuk Soalan 2
             { type: 'minigame', voyage: "🧩 Cabaran Minigame: Padankan Watak & Peristiwa!", pairs: [
                 { id: 1, text: "🐰 Pelanduk Putih" }, { id: 1, text: "Menendang anjing pemburu" },
                 { id: 2, text: "🌳 Pokok Melaka" }, { id: 2, text: "Tempat Parameswara bersandar" }
@@ -391,7 +388,6 @@
             { type: 'question', q: "[SOALAN KBAT 1] Mengapakah tindakan seekor pelanduk putih kecil berani menendang anjing pemburu dianggap sebagai satu petanda yang sangat istimewa kepada Parameswara?", options: ["Ia melambangkan kekuatan semangat berani melawan musuh walaupun berbadan kecil", "Ia menunjukkan kawasan tersebut mempunyai sumber makanan yang sangat lumayan", "Ia membuktikan bahawa haiwan di hutan itu tidak takut kepada manusia"], correct: 0, voyage: "📍 Semangat Keberanian Pelanduk" },
             { type: 'question', q: "Apakah keputusan penting yang dibuat oleh Parameswara setelah melihat ketangkasan dan keberanian pelanduk putih tersebut?", options: ["Baginda segera mengarahkan pengikutnya menangkap pelanduk itu untuk dijadikan peliharaan istana", "Baginda memutuskan untuk membuka sebuah negeri dan dinamakan sempena nama pokok tempat baginda bersandar", "Baginda beredar meninggalkan tempat itu kerana merasa bimbang akan keselamatan pengikutnya"], correct: 1, voyage: "📍 Keputusan Membuka Negeri" },
             
-            // Minigame Padankan Kad ke-2 sebelum masuk Soalan 4
             { type: 'minigame', voyage: "🧩 Cabaran Minigame: Padankan Asal Usul Negeri!", pairs: [
                 { id: 3, text: "👑 Parameswara" }, { id: 3, text: "Pengasas Kesultanan Melaka" },
                 { id: 4, text: "🌊 Muara Sungai Bertam" }, { id: 4, text: "Lokasi strategik pesisiran pantai" }
@@ -552,10 +548,10 @@
             fireConfetti();
         }
 
-        // --- SKRIP ANIMASI KANVAS ---
+        // --- SISTEM ANIMASI KANVAS DRAMATIK (PELANDUK MENENDANG ANJING) ---
         const animCanvas = document.getElementById('animCanvas');
         const actx = animCanvas.getContext('2d');
-        let animFrame = 0;
+        let animTime = 0;
 
         function resizeAnimCanvas() {
             if(animCanvas.parentElement) {
@@ -568,57 +564,74 @@
 
         function drawScene() {
             actx.clearRect(0, 0, animCanvas.width, animCanvas.height);
-            animFrame += 0.05;
+            animTime += 0.04;
 
             let w = animCanvas.width;
             let h = animCanvas.height;
 
-            actx.fillStyle = '#81c784';
-            actx.fillRect(0, h - 25, w, 25);
+            // Tanah & Latar Belakang Hijau Hutan
+            actx.fillStyle = '#4e9350';
+            actx.fillRect(0, h - 22, w, 22);
 
-            let treeX = w * 0.25;
-            let treeY = h - 25;
-            actx.fillStyle = '#5d4037';
-            actx.fillRect(treeX - 10, treeY - 60, 20, 65);
+            // Pokok Melaka di sebelah kiri
+            let treeX = 75;
+            let treeY = h - 22;
+            actx.fillStyle = '#6d4c41';
+            actx.fillRect(treeX - 12, treeY - 75, 24, 78);
             actx.fillStyle = '#2e7d32';
             actx.beginPath();
-            actx.arc(treeX, treeY - 65, 38, 0, Math.PI * 2);
+            actx.arc(treeX, treeY - 80, 42, 0, Math.PI * 2);
             actx.fill();
 
-            let dogX = w * 0.55 + Math.sin(animFrame) * 12;
-            let dogY = h - 40;
-            actx.fillStyle = '#d7ccc8';
-            actx.fillRect(dogX, dogY, 30, 18);
+            // Animasi Anjing Pemburu (terkejut / tersungkur ke belakang akibat tendangan)
+            let dogX = w * 0.52 + Math.sin(animTime * 1.5) * 6;
+            let dogY = h - 38;
             actx.fillStyle = '#8d6e63';
-            actx.fillRect(dogX + 22, dogY - 8, 12, 12);
+            actx.fillRect(dogX, dogY, 34, 18); // Badan anjing
+            // Kepala anjing
+            actx.fillStyle = '#6d4c41';
+            actx.fillRect(dogX - 8, dogY - 6, 14, 14);
 
-            let deerJump = Math.abs(Math.sin(animFrame * 2)) * 10;
+            // Kesan Percikan / Tolakan Tenangan (Efek Kuasa / Letupan Kecil)
+            if (Math.sin(animTime * 3) > 0) {
+                actx.fillStyle = '#ffeb3b';
+                actx.beginPath();
+                actx.arc(dogX - 2, dogY + 6, 12 + Math.sin(animTime*5)*4, 0, Math.PI * 2);
+                actx.fill();
+            }
+
+            // Animasi Pelanduk Putih Melompat & Menendang
+            let jumpCycle = Math.sin(animTime * 3);
             let deerX = w * 0.42;
-            let deerY = h - 40 - deerJump;
-            
+            let deerY = h - 45 - Math.abs(jumpCycle) * 18;
+
+            // Badan Pelanduk Putih
             actx.fillStyle = '#ffffff';
-            actx.strokeStyle = '#b0bec5';
-            actx.lineWidth = 1.5;
+            actx.strokeStyle = '#90a4ae';
+            actx.lineWidth = 2;
             actx.beginPath();
-            actx.arc(deerX, deerY, 12, 0, Math.PI * 2);
+            actx.arc(deerX, deerY, 14, 0, Math.PI * 2);
             actx.fill();
             actx.stroke();
 
+            // Kepala Pelanduk
             actx.beginPath();
-            actx.arc(deerX + 10, deerY - 8, 8, 0, Math.PI * 2);
+            actx.arc(deerX - 12, deerY - 8, 9, 0, Math.PI * 2);
             actx.fill();
             actx.stroke();
 
-            actx.strokeStyle = '#ff5722';
-            actx.lineWidth = 3;
+            // Kaki Melakukan Aksi Tendangan ke arah Anjing
+            actx.strokeStyle = '#ffffff';
+            actx.lineWidth = 4;
             actx.beginPath();
-            actx.moveTo(deerX, deerY + 8);
-            actx.lineTo(dogX, dogY + 4);
+            actx.moveTo(deerX + 4, deerY + 6);
+            actx.lineTo(dogX - 4, dogY + 2); // Kaki menendang tepat ke anjing
             actx.stroke();
 
+            // Label Teks Animasi Di Ruang Atas
             actx.fillStyle = '#1b5e20';
-            actx.font = 'bold 12px Georgia';
-            actx.fillText('🌳 Pelanduk Putih Menendang Anjing Pemburu', 15, 22);
+            actx.font = 'bold 13px Georgia';
+            actx.fillText('⚡ Aksi Dramatik: Pelanduk Putih Menendang Anjing Pemburu!', 15, 22);
 
             requestAnimationFrame(drawScene);
         }
