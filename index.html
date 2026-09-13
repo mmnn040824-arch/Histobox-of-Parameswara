@@ -3,22 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Episod 2: Persinggahan Di Temasik</title>
+    <title>Episod 3: Ancaman Siam & Tragedi Temasik</title>
     <!-- Google Fonts & Icons -->
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Cinzel:wght@700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <!-- Canvas Confetti -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
     <style>
         :root {
-            --gold: #F59E0B;
-            --gold-light: #FEF3C7;
-            --sea-dark: #0F172A;
-            --sea-card: #1E293B;
-            --ocean-blue: #0284C7;
-            --royal-red: #991B1B;
-            --text-light: #F8FAFC;
+            --bg-dark: #1A0C08;
+            --card-bg: #2D150D;
+            --gold: #FFD700;
+            --gold-bright: #FFF066;
+            --crimson: #DC2626;
+            --siam-purple: #7E22CE;
+            --text-light: #FFF8F0;
             --accent-green: #10B981;
         }
 
@@ -26,15 +26,17 @@
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Fredoka', cursive, sans-serif;
         }
 
         body {
-            background-color: var(--sea-dark);
-            /* Corak Lautan & Gelombang Klasik */
-            background-image: radial-gradient(#1E3A8A 1.5px, transparent 1.5px), radial-gradient(#0284C7 1.5px, var(--sea-dark) 1.5px);
-            background-size: 36px 36px;
-            background-position: 0 0, 18px 18px;
+            background-color: var(--bg-dark);
+            /* Corak Kartun Meriam & Keris Klasik */
+            background-image: 
+                radial-gradient(var(--crimson) 2px, transparent 2px), 
+                radial-gradient(var(--gold) 2px, var(--bg-dark) 2px);
+            background-size: 30px 30px;
+            background-position: 0 0, 15px 15px;
             color: var(--text-light);
             padding: 20px;
             min-height: 100vh;
@@ -45,66 +47,100 @@
             margin: 0 auto;
         }
 
-        /* HEADER KLASIK TEMASIK */
+        /* HEADER KARTUN KLASIK WOW */
         header {
             text-align: center;
-            margin-bottom: 25px;
-            background: linear-gradient(135deg, #0369A1, #0F172A);
-            border: 3px solid var(--gold);
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #7F1D1D, #991B1B);
+            border: 4px solid var(--gold);
             padding: 20px;
-            border-radius: 15px;
-            box-shadow: 0 10px 25px rgba(2, 132, 199, 0.4);
+            border-radius: 25px;
+            box-shadow: 0 12px 0px #450A0A, 0 15px 25px rgba(0,0,0,0.8);
+            position: relative;
         }
 
         header h1 {
             font-family: 'Cinzel', serif;
-            font-size: 2rem;
-            color: var(--gold);
-            text-shadow: 2px 2px 4px #000;
+            font-size: 2.2rem;
+            color: var(--gold-bright);
+            text-shadow: 3px 3px 0px #000;
             letter-spacing: 1px;
         }
 
         header p {
-            font-size: 0.95rem;
-            color: var(--gold-light);
+            font-size: 1rem;
+            color: #FCA5A5;
+            margin-top: 5px;
         }
 
-        /* PAPAN SKOR MOHOR TEMASIK */
+        /* BANNER KARTUN PENJAGA MISI */
+        .mascot-banner {
+            background: linear-gradient(90deg, #4C1D95, var(--siam-purple));
+            border: 3px solid var(--gold);
+            border-radius: 20px;
+            padding: 15px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            box-shadow: 0 8px 0 #2E1065;
+        }
+
+        .mascot-avatar {
+            font-size: 3rem;
+            background: #2E1065;
+            border: 2px solid var(--gold);
+            border-radius: 50%;
+            width: 70px;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        /* PAPAN SKOR KARTUN */
         .score-board {
             position: sticky;
-            top: 15px;
+            top: 10px;
             z-index: 100;
-            background: linear-gradient(180deg, #1E293B, #0F172A);
-            border: 2px solid var(--gold);
-            padding: 12px 25px;
+            background: #450A0A;
+            border: 3px solid var(--gold);
+            padding: 10px 25px;
             border-radius: 50px;
             text-align: center;
             font-size: 1.2rem;
             font-weight: 700;
-            color: var(--gold);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.8);
+            color: var(--gold-bright);
+            box-shadow: 0 6px 0 #000;
             margin-bottom: 25px;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
-        /* CARD SOALAN */
+        /* CARD SOALAN KARTUN */
         .q-card {
-            background: var(--sea-card);
-            border: 2px solid var(--gold);
-            border-radius: 15px;
+            background: var(--card-bg);
+            border: 3px solid #78350F;
+            border-radius: 20px;
             padding: 20px;
             margin-bottom: 20px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.6);
+            box-shadow: 0 8px 0 #1A0C08;
+            transition: transform 0.2s;
         }
 
         .q-header {
-            font-family: 'Cinzel', serif;
             font-size: 1.1rem;
-            color: var(--gold-light);
+            color: var(--gold-bright);
             margin-bottom: 12px;
-            border-bottom: 1px dashed var(--gold);
+            border-bottom: 2px dashed #78350F;
             padding-bottom: 8px;
             display: flex;
             align-items: center;
@@ -112,16 +148,17 @@
         }
 
         .q-title {
-            font-size: 1rem;
+            font-size: 1.05rem;
             color: #FFF;
             margin-bottom: 15px;
+            line-height: 1.4;
         }
 
-        /* PILIHAN JAWAPAN */
+        /* BUTTON OPTION KARTUN */
         .options-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 10px;
+            gap: 12px;
         }
 
         @media (max-width: 600px) {
@@ -129,132 +166,160 @@
         }
 
         .opt-btn {
-            background: #0F172A;
-            border: 1.5px solid var(--gold);
+            background: #1A0C08;
+            border: 2px solid var(--gold);
             color: var(--text-light);
             padding: 12px 15px;
-            border-radius: 8px;
+            border-radius: 12px;
             cursor: pointer;
             text-align: left;
-            font-size: 0.9rem;
-            transition: all 0.2s;
+            font-size: 0.95rem;
+            font-weight: 600;
+            box-shadow: 0 4px 0 var(--gold);
+            transition: all 0.1s;
         }
 
         .opt-btn:hover {
-            background: var(--ocean-blue);
-            border-color: #FFF;
             transform: translateY(-2px);
+            box-shadow: 0 6px 0 var(--gold);
+            background: #450A0A;
+        }
+
+        .opt-btn:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px 0 var(--gold);
         }
 
         .opt-btn.correct {
             background: var(--accent-green) !important;
             border-color: #A7F3D0 !important;
             color: #FFF !important;
+            box-shadow: 0 4px 0 #047857 !important;
         }
 
         .opt-btn.wrong {
-            background: var(--royal-red) !important;
-            border-color: #F43F5E !important;
-            opacity: 0.6;
+            background: var(--crimson) !important;
+            border-color: #FECDD3 !important;
+            opacity: 0.7;
+            box-shadow: 0 4px 0 #991B1B !important;
         }
 
-        /* VOICE INPUT STYLING */
-        .voice-box {
-            text-align: center;
-            background: #0F172A;
-            border: 1.5px dashed var(--gold);
-            padding: 20px;
-            border-radius: 10px;
+        /* BENAR / PALSU */
+        .tf-grid {
+            display: flex;
+            gap: 15px;
         }
 
-        .mic-btn {
-            background: linear-gradient(135deg, var(--ocean-blue), #0369A1);
+        .tf-btn {
+            flex: 1;
+            background: #1A0C08;
             border: 2px solid var(--gold);
-            color: var(--gold-light);
-            padding: 15px 30px;
-            border-radius: 50px;
+            color: var(--text-light);
+            padding: 12px;
+            border-radius: 12px;
             font-size: 1.1rem;
             font-weight: 700;
             cursor: pointer;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
-            transition: all 0.2s;
+            box-shadow: 0 4px 0 var(--gold);
         }
 
-        .mic-btn:hover {
-            transform: scale(1.05);
-            background: var(--gold);
-            color: #000;
+        .tf-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 0 var(--gold);
+            background: #450A0A;
         }
 
-        .mic-btn.listening {
+        .tf-btn:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px 0 var(--gold);
+        }
+
+        .tf-btn.correct {
             background: var(--accent-green) !important;
+            border-color: #A7F3D0 !important;
             color: #FFF !important;
-            animation: pulse 1.5s infinite;
+            box-shadow: 0 4px 0 #047857 !important;
         }
 
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
+        .tf-btn.wrong {
+            background: var(--crimson) !important;
+            border-color: #FECDD3 !important;
+            opacity: 0.7;
+            box-shadow: 0 4px 0 #991B1B !important;
         }
 
-        /* ISIAN KLASIK */
+        /* ISIAN KATA KARTUN */
         .word-bank {
-            background: #0F172A;
-            border: 1px dashed var(--gold);
-            padding: 10px;
-            border-radius: 8px;
+            background: #1A0C08;
+            border: 2px dashed var(--gold);
+            padding: 12px;
+            border-radius: 12px;
             margin-bottom: 15px;
             display: flex;
             gap: 10px;
+            flex-wrap: wrap;
         }
 
         .word-chip {
             background: var(--gold);
             color: #000;
             font-weight: 700;
-            padding: 5px 12px;
-            border-radius: 5px;
+            padding: 6px 15px;
+            border-radius: 20px;
             cursor: pointer;
+            box-shadow: 0 3px 0 #B45309;
+        }
+
+        .word-chip:active {
+            transform: translateY(2px);
+            box-shadow: 0 1px 0 #B45309;
         }
 
         .blank-spot {
             display: inline-block;
-            min-width: 100px;
-            height: 32px;
-            border-bottom: 2px solid var(--gold);
-            background: #0F172A;
+            min-width: 120px;
+            height: 35px;
+            border-bottom: 3px solid var(--gold);
+            background: #1A0C08;
             vertical-align: middle;
             text-align: center;
-            line-height: 30px;
-            color: var(--gold-light);
+            line-height: 32px;
+            color: var(--gold-bright);
             font-weight: 700;
             cursor: pointer;
-            padding: 0 8px;
+            padding: 0 10px;
+            border-radius: 6px;
         }
 
-        /* MOHOR PENUTUP TEMASIK */
+        /* MOHOR TAMAT EPISOD 3 */
         .final-seal {
             text-align: center;
-            background: linear-gradient(135deg, #0369A1, #0F172A);
-            border: 3px double var(--gold);
+            background: linear-gradient(135deg, #7F1D1D, #1A0C08);
+            border: 4px solid var(--gold);
             padding: 30px;
-            border-radius: 15px;
+            border-radius: 25px;
             margin-top: 30px;
+            box-shadow: 0 10px 0 #000;
             display: none;
+            animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes popIn {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
         }
 
         .btn-seal {
-            background: linear-gradient(180deg, var(--gold), #B8860B);
+            background: linear-gradient(180deg, var(--gold-bright), var(--gold));
             color: #000;
             border: none;
             padding: 15px 35px;
-            font-family: 'Cinzel', serif;
             font-size: 1.2rem;
             font-weight: 900;
             border-radius: 50px;
             cursor: pointer;
-            box-shadow: 0 5px 15px rgba(245, 158, 11, 0.4);
+            box-shadow: 0 6px 0 #B45309;
+            transition: all 0.2s;
         }
 
         .btn-seal:hover {
@@ -266,82 +331,91 @@
 
 <div class="container">
     <header>
-        <h1><i class="fa-solid fa-anchor"></i> EPISOD 2: PERSINGGAHAN DI TEMASIK</h1>
-        <p>Misi 2: Kuasai Peristiwa Di Temasik & Buka Gerbang Kembara Ke Seterusnya!</p>
+        <h1>⚔️ EPISOD 3: ANCAMAN SIAM & TRAGEDI TEMASIK</h1>
+        <p>Misi 3: Bongkar Sebab Parameswara Melarikan Diri Dari Temasik!</p>
     </header>
+
+    <!-- BANNER MASCOT SEJARAH -->
+    <div class="mascot-banner">
+        <div class="mascot-avatar">👑</div>
+        <div>
+            <h4 style="color:var(--gold-bright); font-size:1.1rem;">AMARAN DARI UTUSAN SIAM!</h4>
+            <p style="font-size:0.85rem; color:#E9D5FF;">"Pembunuhan Temagi telah membangkitkan kemarahan Raja Siam! Pertahankan pengetahuan sejarah anda sekarang!"</p>
+        </div>
+    </div>
 
     <!-- PAPAN SKOR -->
     <div class="score-board">
-        <span><i class="fa-solid fa-coins"></i> SKOR EMAS EPISOD 2:</span>
+        <span><i class="fa-solid fa-shield-halved"></i> SKOR PANGLIMA:</span>
         <span id="score-text">0 / 25 MATA</span>
     </div>
 
     <!-- SOALAN 1 -->
     <div class="q-card">
-        <div class="q-header"><i class="fa-solid fa-user-ninja"></i> SOALAN 1 (PEMERINTAH TEMASIK)</div>
-        <div class="q-title">Sewaktu Parameswara dan pengikutnya tiba di Temasik, siapakah yang menjadi pemerintah di situ?</div>
+        <div class="q-header"><i class="fa-solid fa-skull"></i> SOALAN 1 (PERISTIWA PEMBUNUHAN)</div>
+        <div class="q-title">Mengapakah Parameswara bertindak membunuh Temagi walaupun baginda telah disambut baik di Temasik?</div>
         <div class="options-grid">
-            <button class="opt-btn" onclick="checkQ(this, true, 5)"><i class="fa-solid fa-crown"></i> A. Temagi (Wakil Pemerintah Kerajaan Siam)</button>
-            <button class="opt-btn" onclick="checkQ(this, false, 5)"><i class="fa-solid fa-shield"></i> B. Sang Nila Utama</button>
-            <button class="opt-btn" onclick="checkQ(this, false, 5)"><i class="fa-solid fa-ship"></i> C. Hang Tuah</button>
-            <button class="opt-btn" onclick="checkQ(this, false, 5)"><i class="fa-solid fa-leaf"></i> D. Raja Chulan</button>
+            <button class="opt-btn" onclick="checkQ(this, true, 5)">A. Mahu menguasai Temasik yang kaya & strategik</button>
+            <button class="opt-btn" onclick="checkQ(this, false, 5)">B. Kerana Temagi cuba mencuri kapalnya</button>
+            <button class="opt-btn" onclick="checkQ(this, false, 5)">C. Atas arahan Raja Majapahit</button>
+            <button class="opt-btn" onclick="checkQ(this, false, 5)">D. Kerana pertikaian peribadi kecil</button>
         </div>
     </div>
 
     <!-- SOALAN 2 -->
     <div class="q-card">
-        <div class="q-header"><i class="fa-solid fa-map-location-dot"></i> SOALAN 2 (KEISTIMEWAAN TEMASIK)</div>
-        <div class="q-title">Apakah faktor utama yang menyebabkan Parameswara sangat tertarik untuk menguasai Temasik?</div>
+        <div class="q-header"><i class="fa-solid fa-dragon"></i> SOALAN 2 (REAKSI KERAJAAN SIAM)</div>
+        <div class="q-title">Apakah tindakan serta-merta Kerajaan Siam sebaik sahaja mendapat tahu Temagi telah dibunuh?</div>
         <div class="options-grid">
-            <button class="opt-btn" onclick="checkQ(this, false, 5)">A. Tanah yang sangat subur untuk pertanian padi</button>
-            <button class="opt-btn" onclick="checkQ(this, true, 5)">B. Kedudukannya yang strategik sebagai pelabuhan perdagangan</button>
-            <button class="opt-btn" onclick="checkQ(this, false, 5)">C. Kerana terdapat banyak lombong emas di situ</button>
-            <button class="opt-btn" onclick="checkQ(this, false, 5)">D. Kerana pulau itu tiada penghuni langsung</button>
+            <button class="opt-btn" onclick="checkQ(this, false, 5)">A. Meminta ganti rugi berbentuk emas</button>
+            <button class="opt-btn" onclick="checkQ(this, true, 5)">B. Menghantar angkatan tentera perang untuk menyerang Temasik</button>
+            <button class="opt-btn" onclick="checkQ(this, false, 5)">C. Melantik Parameswara menjadi pemerintah sah</button>
+            <button class="opt-btn" onclick="checkQ(this, false, 5)">D. Membiarkan sahaja peristiwa tersebut</button>
         </div>
     </div>
 
-    <!-- SOALAN 3 (MODUL SUARA / VOICE INPUT) -->
-    <div class="q-card" id="q3-card">
-        <div class="q-header"><i class="fa-solid fa-microphone-lines"></i> SOALAN 3 (CABARAN SUARA: BENAR ATAU PALSU)</div>
-        <div class="q-title">Parameswara telah membunuh Temagi selepas beberapa hari disambut baik olehnya untuk mengambil alih kuasa. <br><small style="color:var(--gold-light);">Tekan butang mikrofon dan sebut perkataan: <b>"BENAR"</b> atau <b>"PALSU"</b></small></div>
-        <div class="voice-box">
-            <button class="mic-btn" id="mic-btn" onclick="startVoiceRecognition()"><i class="fa-solid fa-microphone"></i> Tekan & Sebut (Benar / Palsu)</button>
-            <p id="voice-status" style="margin-top: 15px; font-weight: 600; color: var(--gold-light);">Status: Menunggu arahan suara...</p>
+    <!-- SOALAN 3 (BENAR / PALSU DENGAN SUARA) -->
+    <div class="q-card">
+        <div class="q-header"><i class="fa-solid fa-person-running"></i> SOALAN 3 (STRATEGI PENGUNDURAN)</div>
+        <div class="q-title">Parameswara mengambil keputusan untuk berundur dari Temasik sebelum angkatan tentera Siam sempat tiba.</div>
+        <div class="tf-grid">
+            <button class="tf-btn" onclick="checkTF(this, true, 5, 'Benar')">BENAR</button>
+            <button class="tf-btn" onclick="checkTF(this, false, 5, 'Palsu')">PALSU</button>
         </div>
     </div>
 
     <!-- SOALAN 4 -->
     <div class="q-card">
         <div class="q-header"><i class="fa-solid fa-pen-fancy"></i> SOALAN 4 (ISI TEMPAT KOSONG)</div>
-        <div class="q-title">Pilih kata tepat dari Peti Kata untuk melengkapkan sejarah Temasik:</div>
+        <div class="q-title">Pilih kata tepat untuk melengkapkan laluan pengunduran baginda:</div>
         
         <div class="word-bank">
-            <span class="word-chip" onclick="selectChip(this)">Singapura</span>
-            <span class="word-chip" onclick="selectChip(this)">Brunei</span>
+            <span class="word-chip" onclick="selectChip(this)">Utara</span>
+            <span class="word-chip" onclick="selectChip(this)">Selatan</span>
         </div>
 
         <div style="font-size: 0.95rem; line-height: 2;">
-            Temasik merupakan nama kuno / nama asal bagi pulau <span class="blank-spot" id="b2" onclick="fillBlank(this, 'Singapura', 5)"></span> pada zaman moden hari ini.
+            Selepas tinggalkan Temasik, Parameswara dan pengikutnya berundur menuju ke arah <span class="blank-spot" id="b3" onclick="fillBlank(this, 'Utara', 5)"></span> Peninsular Tanah Melayu.
         </div>
     </div>
 
     <!-- SOALAN 5 -->
     <div class="q-card">
-        <div class="q-header"><i class="fa-solid fa-brain"></i> SOALAN 5 (ANALISIS KBAT KESAN REAKSI)</div>
-        <div class="q-title">[ARAS KBAT] Apakah kesan jangka panjang daripada tindakan Parameswara menguasai Temasik secara paksa?</div>
+        <div class="q-header"><i class="fa-solid fa-brain"></i> SOALAN 5 (KBAT ANALISIS TAKTIKAL)</div>
+        <div class="q-title">[ARAS KBAT] Mengapakah Parameswara memilih untuk tidak bertahan & berperang menentang tentera Siam di Temasik?</div>
         <div class="options-grid">
-            <button class="opt-btn" onclick="checkQ(this, true, 5)">A. Menimbulkan kemarahan Kerajaan Siam lalu mereka merancang serangan balas</button>
-            <button class="opt-btn" onclick="checkQ(this, false, 5)">B. Kerajaan Siam menghantar hadiah kegemilangan kepada Parameswara</button>
-            <button class="opt-btn" onclick="checkQ(this, false, 5)">C. Temasik menjadi pusat empayar terbesar di dunia serta-merta</button>
-            <button class="opt-btn" onclick="checkQ(this, false, 5)">D. Majapahit terus menjadi sahabat karib Parameswara</button>
+            <button class="opt-btn" onclick="checkQ(this, true, 5)">A. Tentera Siam terlalu kuat & Parameswara belum ada pertahanan kukuh</button>
+            <button class="opt-btn" onclick="checkQ(this, false, 5)">B. Kerana Temasik telah kehabisan bekalan air bersih</button>
+            <button class="opt-btn" onclick="checkQ(this, false, 5)">C. Baginda terlupa membawa senjata tentera</button>
+            <button class="opt-btn" onclick="checkQ(this, false, 5)">D. Pengikutnya enggan bertempur lagi</button>
         </div>
     </div>
 
-    <!-- MOHOR TAMAT TEMASIK -->
+    <!-- MOHOR TAMAT EPISOD 3 -->
     <div class="final-seal" id="seal-box">
-        <h2 style="font-family:'Cinzel'; color:var(--gold); margin-bottom:10px;"><i class="fa-solid fa-compass-drafting"></i> MOHOR TEMASIK DISAHKAN!</h2>
-        <p style="margin-bottom:20px; color:var(--gold-light);">Tahniah Ejen Sejarah! Anda berjaya membongkar Sejarah Persinggahan di Temasik!</p>
-        <button class="btn-seal" onclick="triggerSeal()"><i class="fa-solid fa-scroll"></i> CAP MOHOR TEMASIK</button>
+        <h2 style="font-family:'Cinzel'; color:var(--gold-bright); margin-bottom:10px;"><i class="fa-solid fa-shield-cat"></i> CAP MOHOR ANCAMAN SIAM!</h2>
+        <p style="margin-bottom:20px; color:#FCA5A5;">Tahniah Panglima Sejarah! Anda telah melepasi Misi 3 dengan jayanya!</p>
+        <button class="btn-seal" onclick="triggerSeal()"><i class="fa-solid fa-scroll"></i> TERIMA GELARAN PANGLIMA</button>
         <div id="final-result" style="margin-top:20px; font-weight:700; font-size:1.3rem; color:#FFF;"></div>
     </div>
 
@@ -351,27 +425,49 @@
     let score = 0;
     let answeredQ = 0;
     let selectedChipText = "";
-    let q3Answered = false;
 
-    // KESAN BUNYI LAUT / KLASIK (Web Audio API)
-    function playSound(isCorrect) {
+    // FUNGSI SEBUTAN SUARA (TEXT-TO-SPEECH)
+    function speakText(text) {
+        if ('speechSynthesis' in window) {
+            window.speechSynthesis.cancel(); // Hentikan suara sebelumnya jika ada
+            let utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'ms-MY'; // Bahasa Melayu
+            utterance.rate = 1.0; // Kelajuan normal
+            utterance.pitch = 1.1; // Nada ceria sedikit
+            window.speechSynthesis.speak(utterance);
+        }
+    }
+
+    // KESAN BUNYI PERANG KARTUN (Web Audio API)
+    function playSound(type) {
         let ctx = new (window.AudioContext || window.webkitAudioContext)();
         let osc = ctx.createOscillator();
         let gain = ctx.createGain();
         osc.connect(gain);
         gain.connect(ctx.destination);
 
-        if(isCorrect) {
-            osc.frequency.setValueAtTime(587.33, ctx.currentTime); // D5
-            osc.frequency.exponentialRampToValueAtTime(880, ctx.currentTime + 0.25); // A5
+        if(type === 'correct') {
+            osc.type = 'triangle';
+            osc.frequency.setValueAtTime(440, ctx.currentTime);
+            osc.frequency.exponentialRampToValueAtTime(880, ctx.currentTime + 0.15);
             gain.gain.setValueAtTime(0.3, ctx.currentTime);
             osc.start();
-            osc.stop(ctx.currentTime + 0.3);
-        } else {
-            osc.frequency.setValueAtTime(180, ctx.currentTime);
-            gain.gain.setValueAtTime(0.3, ctx.currentTime);
+            osc.stop(ctx.currentTime + 0.25);
+        } else if(type === 'wrong') {
+            osc.type = 'sawtooth';
+            osc.frequency.setValueAtTime(150, ctx.currentTime);
+            osc.frequency.exponentialRampToValueAtTime(60, ctx.currentTime + 0.2);
+            gain.gain.setValueAtTime(0.4, ctx.currentTime);
             osc.start();
-            osc.stop(ctx.currentTime + 0.2);
+            osc.stop(ctx.currentTime + 0.25);
+        } else if(type === 'victory') {
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(523.25, ctx.currentTime);
+            osc.frequency.setValueAtTime(659.25, ctx.currentTime + 0.1);
+            osc.frequency.setValueAtTime(783.99, ctx.currentTime + 0.2);
+            gain.gain.setValueAtTime(0.4, ctx.currentTime);
+            osc.start();
+            osc.stop(ctx.currentTime + 0.4);
         }
     }
 
@@ -382,88 +478,33 @@
         if(isCorrect) {
             btn.classList.add('correct');
             score += pts;
-            playSound(true);
-            confetti({ particleCount: 20, spread: 50, origin: { y: 0.7 } });
+            playSound('correct');
+            confetti({ particleCount: 25, spread: 60, origin: { y: 0.7 } });
         } else {
             btn.classList.add('wrong');
-            playSound(false);
+            playSound('wrong');
         }
 
         document.getElementById('score-text').innerText = score + " / 25 MATA";
         checkCompletion();
     }
 
-    // FUNGSI CAM SUARA (SPEECH RECOGNITION) UNTUK SOALAN 3
-    function startVoiceRecognition() {
-        if (q3Answered) return;
+    // KHAS UNTUK SOALAN BENAR / PALSU DENGAN SUARA
+    function checkTF(btn, isCorrect, pts, textToSpeak) {
+        let parent = btn.parentElement;
+        parent.querySelectorAll('button').forEach(b => b.disabled = true);
 
-        window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-        if (!window.SpeechRecognition) {
-            alert("Maaf, pelayar web (browser) anda tidak menyokong fungsi suara. Sila gunakan Google Chrome.");
-            return;
-        }
+        // Sebut jawapan yang ditekan menggunakan pembesar suara (TTS)
+        speakText(textToSpeak);
 
-        const recognition = new SpeechRecognition();
-        recognition.lang = 'ms-MY'; // Tetapan Bahasa Melayu
-        recognition.interimResults = false;
-        recognition.maxAlternatives = 1;
-
-        const micBtn = document.getElementById('mic-btn');
-        const statusText = document.getElementById('voice-status');
-
-        micBtn.classList.add('listening');
-        micBtn.innerText = "Sila bercakap sekarang...";
-        statusText.innerText = "Status: Mendengar suara anda...";
-
-        recognition.start();
-
-        recognition.onresult = function(event) {
-            let speechResult = event.results[0][0].transcript.trim().toLowerCase();
-            statusText.innerText = `Anda menyebut: "${speechResult}"`;
-            
-            // Semak sama ada jawapan mengandungi perkataan 'benar' atau 'palsu'
-            if (speechResult.includes('benar')) {
-                handleVoiceAnswer(true, 5);
-            } else if (speechResult.includes('palsu')) {
-                handleVoiceAnswer(false, 5);
-            } else {
-                statusText.innerText = `Tidak dapat dikenalpasti ("${speechResult}"). Cuba tekan semula.`;
-                micBtn.classList.remove('listening');
-                micBtn.innerText = "Tekan & Cuba Semula";
-            }
-        };
-
-        recognition.onerror = function(event) {
-            statusText.innerText = "Ralat pengesanan suara. Sila cuba lagi.";
-            micBtn.classList.remove('listening');
-            micBtn.innerText = "Tekan & Cuba Semula";
-        };
-
-        recognition.onend = function() {
-            if (!q3Answered) {
-                micBtn.classList.remove('listening');
-            }
-        };
-    }
-
-    function handleVoiceAnswer(isCorrect, pts) {
-        q3Answered = true;
-        const micBtn = document.getElementById('mic-btn');
-        micBtn.disabled = true;
-        micBtn.classList.remove('listening');
-
-        if (isCorrect) {
-            micBtn.style.background = "var(--accent-green)";
-            micBtn.style.borderColor = "#A7F3D0";
-            micBtn.innerText = "✨ BETUL! (Jawapan Diterima)";
+        if(isCorrect) {
+            btn.classList.add('correct');
             score += pts;
-            playSound(true);
-            confetti({ particleCount: 20, spread: 50, origin: { y: 0.7 } });
+            playSound('correct');
+            confetti({ particleCount: 25, spread: 60, origin: { y: 0.7 } });
         } else {
-            micBtn.style.background = "var(--royal-red)";
-            micBtn.style.borderColor = "#F43F5E";
-            micBtn.innerText = "❌ SALAH! (Jawapan Salah)";
-            playSound(false);
+            btn.classList.add('wrong');
+            playSound('wrong');
         }
 
         document.getElementById('score-text').innerText = score + " / 25 MATA";
@@ -472,7 +513,7 @@
 
     function selectChip(chip) {
         document.querySelectorAll('.word-chip').forEach(c => c.style.outline = "none");
-        chip.style.outline = "2px solid #FFF";
+        chip.style.outline = "3px solid #FFF";
         selectedChipText = chip.innerText;
     }
 
@@ -485,13 +526,13 @@
             spot.style.color = "#A7F3D0";
             spot.style.borderColor = "#10B981";
             score += pts;
-            playSound(true);
-            confetti({ particleCount: 20 });
+            playSound('correct');
+            confetti({ particleCount: 25 });
         } else {
             spot.innerText = selectedChipText;
             spot.style.color = "#FECDD3";
             spot.style.borderColor = "#F43F5E";
-            playSound(false);
+            playSound('wrong');
         }
         document.getElementById('score-text').innerText = score + " / 25 MATA";
         checkCompletion();
@@ -501,16 +542,17 @@
         answeredQ++;
         if(answeredQ >= 5) {
             document.getElementById('seal-box').style.display = "block";
+            playSound('victory');
         }
     }
 
     function triggerSeal() {
-        confetti({ particleCount: 150, spread: 90, origin: { y: 0.5 } });
+        confetti({ particleCount: 180, spread: 100, origin: { y: 0.5 } });
         let result = document.getElementById('final-result');
         if(score >= 20) {
-            result.innerHTML = "🏆 PANGKAT: <span style='color:var(--gold);'>PEMERINTAH LAUT TEMASIK</span><br><small>Sedia melangkah ke Episod 3 (Ancaman Siam)!</small>";
+            result.innerHTML = "🏆 GELARAN: <span style='color:var(--gold-bright);'>PANGLIMA PERANG BISA</span><br><small>Sedia teruskan pengembaraan ke Episod 4 (Muar & Sening Ujong)!</small>";
         } else {
-            result.innerHTML = "📜 PANGKAT: <span style='color:var(--gold-light);'>NAKODA PERAIRAN</span><br><small>Cuba semula untuk mendapat skor penuh 25 Mata!</small>";
+            result.innerHTML = "📜 GELARAN: <span style='color:#FCA5A5;'>PRAJORIT MUDA</span><br><small>Cuba lagi untuk dapatkan markah penuh 25 Mata!</small>";
         }
     }
 </script>
