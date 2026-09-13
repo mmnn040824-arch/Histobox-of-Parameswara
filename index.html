@@ -264,15 +264,15 @@
         <!-- SKRIN MULA -->
         <div id="startScreen" class="start-screen">
             <h1 class="title-text">🏛️ EPISOD 4: BERUNDUR KE MUAR</h1>
-            <p class="subtitle-text"><b>Kembara Kesultanan Melayu Klasik</b><br>Uji minda anda dengan soalan fakta dan pemikiran kritis. Setiap jawapan betul bernilai <b>5 Markah</b>!</p>
+            <p class="subtitle-text"><b>Kembara Kesultanan Melayu Klasik</b><br>Uji minda anda mengenai ancaman di Temasik dan persinggahan di Muar. Setiap jawapan betul bernilai <b>5 Markah</b>!</p>
             <button class="btn-start" onclick="startGame()">MULA PENGEMBARAAN ⚔️</button>
         </div>
 
         <!-- SKRIN PERMAINAN -->
         <div id="gameScreen" class="hidden">
             <div class="header-bar">
-                <span class="badge" id="questionNum">Soalan 1/6</span>
-                <div class="score-board">⭐ Markah: <span id="scoreText">0</span> / 30</div>
+                <span class="badge" id="questionNum">Soalan 1/5</span>
+                <div class="score-board">⭐ Markah: <span id="scoreText">0</span> / 25</div>
             </div>
 
             <div class="progress-bar-container">
@@ -290,12 +290,12 @@
             <p class="subtitle-text" style="font-size: 1.3rem;">Anda telah berjaya mengharungi kembara di Laci 4 dengan cemerlang!</p>
             
             <div style="font-size: 2.3rem; font-weight: 800; color: #4a150b; margin: 15px 0; background: #fff3e0; padding: 10px 20px; border-radius: 12px; border: 2px solid #b8860b;">
-                JUMLAH MARKAH: <span id="finalScore">0</span> / 30
+                JUMLAH MARKAH: <span id="finalScore">0</span> / 25
             </div>
 
             <div class="next-laci-box">
                 <h2 style="margin:0; color: #e65100; font-size: 1.4rem;">➡️ TERUS KE LACI LIMA!</h2>
-                <p style="margin:8px 0 0 0; color: #3e2723; font-size: 1.1rem;">Tahniah! Sila bergerak ke <b>Laci Lima: Tiba di Muara Sungai Bertam</b> untuk babak seterusnya!</p>
+                <p style="margin:8px 0 0 0; color: #3e2723; font-size: 1.1rem;">Tahniah! Sila bergerak ke <b>Laci Lima: Sening Ujong & Muara Sungai Bertam</b> untuk babak seterusnya!</p>
             </div>
 
             <button class="btn-start" onclick="restartGame()" style="margin-top: 20px;">MAIN SEMULA 🔄</button>
@@ -366,6 +366,7 @@
             document.getElementById('audioToggle').innerText = isMuted ? '🔇' : '🎵';
         }
 
+        // Soalan Episod 4 (Fokus Temasik & Muar sahaja)
         const questions = [
             {
                 q: "Apakah sebab utama Parameswara membuat keputusan berundur meninggalkan Temasik?",
@@ -395,20 +396,11 @@
                 correct: 0
             },
             {
-                q: "Selepas berundur dari Muar, baginda meneruskan perjalanan ke manakah sebelum meneroka wilayah lain?",
+                q: "Apakah kelebihan geografi kawasan Muar yang menarik minat Parameswara untuk singgah di situ?",
                 options: [
-                    "Sening Ujong",
-                    "Palembang",
-                    "Singapura"
-                ],
-                correct: 0
-            },
-            {
-                q: "Apakah tindakan bijak yang dilakukan oleh Parameswara semasa berada di Sening Ujong?",
-                options: [
-                    "Melantik seorang wakil pemerintah untuk menguruskan pentadbiran kawasan tersebut",
-                    "Membina pelabuhan bebas cukai untuk pedagang asing",
-                    "Menutup semua laluan air supaya musuh tidak boleh masuk"
+                    "Kedudukannya yang strategik sebagai laluan perlindungan sementara",
+                    "Kawasan tersebut merupakan pusat empayar perdagangan antarabangsa yang besar",
+                    "Terdapat kemudahan pelabuhan batu Arang yang lengkap"
                 ],
                 correct: 0
             },
