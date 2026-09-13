@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Episod 5: Sening Ujong & Muara Sungai Bertam</title>
+    <title>Episod 6: Pelanduk Putih & Pembinaan Melaka</title>
     <style>
         * {
             box-sizing: border-box;
@@ -47,11 +47,11 @@
 
         .game-container {
             width: 90%;
-            max-width: 780px;
+            max-width: 800px;
             background: rgba(255, 255, 255, 0.96);
             border: 5px solid #d4af37;
             border-radius: 24px;
-            padding: 30px;
+            padding: 25px;
             box-shadow: 0 20px 40px rgba(0,0,0,0.6);
             position: relative;
             z-index: 10;
@@ -59,15 +59,32 @@
             margin: 20px 0;
         }
 
-        /* Kapal Animasi Dinamik di Atas Kotak */
+        .story-animation-box {
+            width: 100%;
+            height: 130px;
+            background: linear-gradient(to bottom, #c8e6c9, #a5d6a7);
+            border: 3px solid #388e3c;
+            border-radius: 14px;
+            position: relative;
+            margin-bottom: 15px;
+            overflow: hidden;
+            box-shadow: inset 0 3px 6px rgba(0,0,0,0.1);
+        }
+
+        #animCanvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
         .ship-voyage-bar {
             width: 100%;
             height: 45px;
             background: #fff8e1;
-            border: 2px dashed #d4af37;
+            border: 2px solid #d4af37;
             border-radius: 12px;
             position: relative;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             display: flex;
             align-items: center;
             padding: 0 15px;
@@ -76,16 +93,16 @@
         .moving-ship {
             position: absolute;
             left: 5%;
-            font-size: 2.2rem;
+            font-size: 2rem;
             transition: left 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
             transform: translateY(-2px);
-            filter: drop-shadow(0 3px 4px rgba(0,0,0,0.3));
+            z-index: 3;
         }
 
         .voyage-label {
             font-size: 0.9rem;
             font-weight: bold;
-            color: #795548;
+            color: #b8860b;
             width: 100%;
             text-align: right;
         }
@@ -98,19 +115,19 @@
             color: #ffecb3;
             padding: 10px 20px;
             border-radius: 12px;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             border: 2px solid #d4af37;
             font-weight: bold;
         }
 
         .question-box {
-            font-size: 1.25rem;
+            font-size: 1.1rem;
             font-weight: 700;
             color: #2c1d18;
-            margin-bottom: 20px;
-            line-height: 1.5;
+            margin-bottom: 15px;
+            line-height: 1.4;
             background: #fff8e1;
-            padding: 20px;
+            padding: 15px;
             border-radius: 14px;
             border: 2px solid #ffe082;
             box-shadow: 0 2px 5px rgba(0,0,0,0.05);
@@ -119,22 +136,25 @@
         .cards-grid {
             display: grid;
             grid-template-columns: 1fr;
-            gap: 12px;
-            margin-bottom: 15px;
+            gap: 10px;
+            margin-bottom: 10px;
         }
 
         .option-card {
             background: #ffffff;
             border: 2px solid #d4af37;
             border-radius: 12px;
-            padding: 16px;
+            padding: 14px 16px;
             cursor: pointer;
             transition: all 0.2s ease;
-            font-size: 1.05rem;
+            font-size: 1rem;
             font-weight: 600;
             color: #3e2723;
             box-shadow: 0 4px 6px rgba(0,0,0,0.05);
             text-align: left;
+            display: flex;
+            align-items: center;
+            gap: 12px;
         }
 
         .option-card:hover {
@@ -153,6 +173,67 @@
             background: #ffcdd2 !important;
             border-color: #c62828 !important;
             color: #b71c1c !important;
+        }
+
+        .option-badge {
+            background: #f57f17;
+            color: white;
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            flex-shrink: 0;
+            font-size: 0.85rem;
+        }
+
+        /* Gaya Permainan Padankan Kad (Minigame) */
+        .matching-container {
+            background: #fff8e1;
+            border: 2px dashed #d4af37;
+            border-radius: 14px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .matching-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 10px;
+        }
+
+        .match-item {
+            background: #ffffff;
+            border: 2px solid #b8860b;
+            border-radius: 10px;
+            padding: 12px;
+            font-size: 0.95rem;
+            font-weight: bold;
+            color: #3e2723;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+        }
+
+        .match-item:hover {
+            background: #ffe082;
+        }
+
+        .match-item.selected {
+            background: #ffb703;
+            color: #fff;
+            border-color: #e65100;
+        }
+
+        .match-item.matched {
+            background: #c8e6c9;
+            color: #1b5e20;
+            border-color: #2e7d32;
+            cursor: default;
+            opacity: 0.8;
         }
 
         .btn-start {
@@ -203,33 +284,36 @@
 
         <!-- SKRIN MULA -->
         <div id="startScreen" style="padding: 20px;">
-            <h1 style="color: #4a150b; font-size: 1.8rem; margin-bottom: 10px;">EPISOD 5: SENING UJONG & SUNGAI BERTAM</h1>
-            <p style="color: #5d4037; font-size: 1.05rem; margin-bottom: 25px;">Jelajahi pengembaraan tanpa kotak kaku! Jawab 5 soalan (5 markah setiap satu) dan saksikan kapal berlayar merentasi skrin.</p>
-            <button class="btn-start" onclick="startGame()">MULA KEMBARA ⛵</button>
+            <h1 style="color: #4a150b; font-size: 1.8rem; margin-bottom: 10px;">EPISOD 6: PELANDUK PUTIH & MELAKA</h1>
+            <p style="color: #5d4037; font-size: 1.05rem; margin-bottom: 25px;">Saksikan animasi, selesaikan cabaran padankan kad interaktif, dan jawab 5 soalan bijak (termasuk 2 soalan KBAT)!</p>
+            <button class="btn-start" onclick="startGame()">MULA KEMBARA 🐇🌳</button>
         </div>
 
         <!-- SKRIN PERMAINAN -->
         <div id="gameScreen" class="hidden">
-            <!-- Jalur Kapal Berlayar Lancar -->
+            <div class="story-animation-box">
+                <canvas id="animCanvas"></canvas>
+            </div>
+
             <div class="ship-voyage-bar">
-                <div class="moving-ship" id="shipObj">⛵</div>
-                <div class="voyage-label" id="voyageText">Pelayaran: Sening Ujong</div>
+                <div class="moving-ship" id="shipObj">🐇</div>
+                <div class="voyage-label" id="voyageText">Pelayaran: Peristiwa Pelanduk</div>
             </div>
 
             <div class="header-info">
                 <span id="questionNum">Soalan 1/5</span>
-                <span>⭐ Markah: <span id="scoreText">0</span> / 25</span>
+                <span>⭐ Markah: <span id="scoreText">0</span> / 35</span>
             </div>
 
-            <div class="question-box" id="questionText">Soalan...</div>
-            <div class="cards-grid" id="optionsGrid"></div>
+            <!-- KAWASAN KANDUNGAN UTAMA (SOALAN ATAU MINIGAME) -->
+            <div id="contentArea"></div>
         </div>
 
         <!-- SKRIN TAMAT -->
         <div id="endScreen" class="hidden" style="padding: 20px;">
-            <h1 style="color: #4a150b; font-size: 1.8rem;">🎉 TAHNIAH! SELESAI EPISOD 5 🎉</h1>
-            <p style="color: #5d4037; font-size: 1.1rem; margin: 15px 0;">Jumlah Markah Anda:</p>
-            <div style="font-size: 2.2rem; font-weight: bold; color: #b8860b; margin-bottom: 20px;"><span id="finalScore">0</span> / 25</div>
+            <h1 style="color: #4a150b; font-size: 1.8rem;">🎉 TAHNIAH! SELESAI EPISOD 6 🎉</h1>
+            <p style="color: #5d4037; font-size: 1.1rem; margin: 15px 0;">Jumlah Markah Keseluruhan:</p>
+            <div style="font-size: 2.2rem; font-weight: bold; color: #b8860b; margin-bottom: 20px;"><span id="finalScore">0</span> / 35</div>
             <button class="btn-start" onclick="startGame()">MAIN SEMULA 🔄</button>
         </div>
     </div>
@@ -263,28 +347,28 @@
         function startBGM() {
             initAudio();
             if (bgmInterval) clearInterval(bgmInterval);
-            let notes = [261.63, 329.63, 392.00, 523.25];
+            let notes = [329.63, 392.00, 440.00, 523.25, 587.33];
             let idx = 0;
             bgmInterval = setInterval(() => {
                 if (!isMuted) {
-                    playTone(notes[idx], 'triangle', 0.4, 0.1);
+                    playTone(notes[idx], 'triangle', 0.35, 0.25);
                     idx = (idx + 1) % notes.length;
                 }
-            }, 500);
+            }, 450);
         }
 
         function playSFX(type) {
             initAudio();
             if (isMuted) return;
             if (type === 'correct') {
-                playTone(523.25, 'sine', 0.2, 0.4);
-                setTimeout(() => playTone(659.25, 'sine', 0.25, 0.4), 120);
-                setTimeout(() => playTone(783.99, 'sine', 0.3, 0.4), 240);
+                playTone(523.25, 'sine', 0.2, 0.6);
+                setTimeout(() => playTone(659.25, 'sine', 0.25, 0.6), 120);
+                setTimeout(() => playTone(783.99, 'sine', 0.3, 0.6), 240);
             } else if (type === 'wrong') {
-                playTone(140, 'sawtooth', 0.3, 0.4);
+                playTone(130, 'sawtooth', 0.35, 0.6);
             } else if (type === 'win') {
-                [392, 523.25, 659.25, 783.99].forEach((n, i) => {
-                    setTimeout(() => playTone(n, 'sine', 0.3, 0.4), i * 150);
+                [392, 523.25, 659.25, 783.99, 1046.50].forEach((n, i) => {
+                    setTimeout(() => playTone(n, 'sine', 0.3, 0.6), i * 130);
                 });
             }
         }
@@ -294,109 +378,253 @@
             document.getElementById('audioToggle').innerText = isMuted ? '🔇' : '🎵';
         }
 
-        const questions = [
-            {
-                q: "Selepas meninggalkan Muar, apakah lokasi seterusnya yang dituju oleh Parameswara dalam perjalanan baginda?",
-                options: ["Sening Ujong", "Temasik", "Melaka"],
-                correct: 0,
-                voyage: "Pelayaran: Menuju Sening Ujong"
-            },
-            {
-                q: "Apakah tindakan penting yang dilakukan oleh Parameswara semasa berada di Sening Ujong?",
-                options: ["Melantik seorang wakil pemerintah untuk menguruskan kawasan tersebut", "Membina kota pertahanan batu yang besar dan kukuh", "Membuka pelabuhan bebas cukai antarabangsa"],
-                correct: 0,
-                voyage: "Pelayaran: Di Sening Ujong"
-            },
-            {
-                q: "Selepas meninggalkan Sening Ujong, di manakah tempat persinggahan seterusnya bagi Parameswara dan pengikutnya?",
-                options: ["Muara Sungai Bertam", "Pahang Tua", "Pulau Pinang"],
-                correct: 0,
-                voyage: "Pelayaran: Ke Sungai Bertam"
-            },
-            {
-                q: "Apakah ciri persekitaran fizikal yang terdapat di lokasi persinggahan baginda di muara Sungai Bertam?",
-                options: ["Sebuah perkampungan nelayan", "Sebuah kota istana yang tersergam indah", "Kawasan padang pasir yang luas"],
-                correct: 0,
-                voyage: "Pelayaran: Muara Sungai Bertam"
-            },
-            {
-                q: "[SOALAN KBAT] Mengapakah tindakan melantik wakil pemerintah di wilayah yang disinggahi seperti Sening Ujong merupakan langkah kepimpinan yang sangat strategik?",
-                options: ["Bagi memastikan kestabilan pentadbiran dan keselamatan wilayah tersebut sentiasa terpelihara", "Supaya baginda tidak perlu lagi kembali semula ke wilayah berkenaan selama-lamanya", "Untuk menyerahkan kuasa penuh kepada penduduk tempatan tanpa sebarang syarat"],
-                correct: 0,
-                voyage: "Destinasi Tercapai! 🏆"
-            }
+        // Struktur Aliran Permainan (Gabungan Minigame Padankan Kad & Soalan Kuiz)
+        const gameFlow = [
+            { type: 'question', q: "Apakah peristiwa luar biasa yang disaksikan oleh Parameswara semasa baginda sedang berehat di bawah pokok Melaka?", options: ["Seekor rusa emas muncul membawa mahkota Diraja", "Hujan lebat turun dengan sangat deras secara tiba-tiba", "Seekor pelanduk putih menendang anjing pemburu baginda"], correct: 2, voyage: "📍 Peristiwa Pelanduk Putih" },
+            
+            // Minigame Padankan Kad ke-1 sebelum masuk Soalan 2
+            { type: 'minigame', voyage: "🧩 Cabaran Minigame: Padankan Watak & Peristiwa!", pairs: [
+                { id: 1, text: "🐰 Pelanduk Putih" }, { id: 1, text: "Menendang anjing pemburu" },
+                { id: 2, text: "🌳 Pokok Melaka" }, { id: 2, text: "Tempat Parameswara bersandar" }
+            ]},
+
+            { type: 'question', q: "[SOALAN KBAT 1] Mengapakah tindakan seekor pelanduk putih kecil berani menendang anjing pemburu dianggap sebagai satu petanda yang sangat istimewa kepada Parameswara?", options: ["Ia melambangkan kekuatan semangat berani melawan musuh walaupun berbadan kecil", "Ia menunjukkan kawasan tersebut mempunyai sumber makanan yang sangat lumayan", "Ia membuktikan bahawa haiwan di hutan itu tidak takut kepada manusia"], correct: 0, voyage: "📍 Semangat Keberanian Pelanduk" },
+            { type: 'question', q: "Apakah keputusan penting yang dibuat oleh Parameswara setelah melihat ketangkasan dan keberanian pelanduk putih tersebut?", options: ["Baginda segera mengarahkan pengikutnya menangkap pelanduk itu untuk dijadikan peliharaan istana", "Baginda memutuskan untuk membuka sebuah negeri dan dinamakan sempena nama pokok tempat baginda bersandar", "Baginda beredar meninggalkan tempat itu kerana merasa bimbang akan keselamatan pengikutnya"], correct: 1, voyage: "📍 Keputusan Membuka Negeri" },
+            
+            // Minigame Padankan Kad ke-2 sebelum masuk Soalan 4
+            { type: 'minigame', voyage: "🧩 Cabaran Minigame: Padankan Asal Usul Negeri!", pairs: [
+                { id: 3, text: "👑 Parameswara" }, { id: 3, text: "Pengasas Kesultanan Melaka" },
+                { id: 4, text: "🌊 Muara Sungai Bertam" }, { id: 4, text: "Lokasi strategik pesisiran pantai" }
+            ]},
+
+            { type: 'question', q: "Sempena nama apakah negeri baharu yang diasaskan oleh Parameswara selepas peristiwa di tepi sungai tersebut?", options: ["Sempena nama Pokok Melaka", "Sempena nama Sungai Bertam", "Sempena nama Sening Ujong"], correct: 0, voyage: "📍 Asal Usul Nama Melaka" },
+            { type: 'question', q: "[SOALAN KBAT 2] Pada pandangan anda, bagaimanakah pemilihan lokasi strategik di pesisiran pantai muara sungai membantu perkembangan Melaka menjadi sebuah empayar perdagangan antarabangsa yang unggul?", options: ["Menjadikan kawasan tersebut terpencil dan sukar dikesan oleh mana-mana pihak musuh", "Membolehkan penduduk tempatan menjalankan aktiviti perlombongan emas secara besar-besaran", "Membolehkan kapal pedagang dari timur dan barat singgah dengan mudah serta selamat untuk berdagang"], correct: 2, voyage: "🏆 Empayar Melaka Berjaya Diasaskan!" }
         ];
 
-        let currentIdx = 0;
+        let currentStep = 0;
         let score = 0;
         let canAnswer = true;
+        let selectedMatch = null;
+        let matchedPairsCount = 0;
 
         function startGame() {
             startBGM();
             document.getElementById('startScreen').classList.add('hidden');
             document.getElementById('gameScreen').classList.remove('hidden');
             document.getElementById('endScreen').classList.add('hidden');
-            currentIdx = 0;
+            currentStep = 0;
             score = 0;
-            loadQuestion();
+            loadStep();
         }
 
-        function loadQuestion() {
+        function loadStep() {
             canAnswer = true;
-            let q = questions[currentIdx];
-            document.getElementById('questionNum').innerText = `Soalan ${currentIdx + 1}/5`;
-            document.getElementById('questionText').innerText = q.q;
-            document.getElementById('voyageText').innerText = q.voyage;
+            let step = gameFlow[currentStep];
+            document.getElementById('questionNum').innerText = `Langkah ${currentStep + 1}/${gameFlow.length}`;
+            document.getElementById('voyageText').innerText = step.voyage;
 
-            // Kapal bergerak maju secara lancar mengikut soalan
-            let posPercent = 5 + (currentIdx / (questions.length - 1)) * 80;
+            let posPercent = 5 + (currentStep / (gameFlow.length - 1)) * 80;
             document.getElementById('shipObj').style.left = `${posPercent}%`;
 
-            let grid = document.getElementById('optionsGrid');
-            grid.innerHTML = '';
-            q.options.forEach((opt, idx) => {
-                let card = document.createElement('div');
-                card.className = 'option-card';
-                card.innerText = opt;
-                card.onclick = () => selectOption(idx, card);
-                grid.appendChild(card);
-            });
+            let area = document.getElementById('contentArea');
+            area.innerHTML = '';
+
+            if (step.type === 'question') {
+                let qBox = document.createElement('div');
+                qBox.className = 'question-box';
+                qBox.innerText = step.q;
+                area.appendChild(qBox);
+
+                let grid = document.createElement('div');
+                grid.className = 'cards-grid';
+                const labels = ['A', 'B', 'C'];
+
+                step.options.forEach((opt, idx) => {
+                    let card = document.createElement('div');
+                    card.className = 'option-card';
+                    card.innerHTML = `<div class="option-badge">${labels[idx]}</div> <span>${opt}</span>`;
+                    card.onclick = () => selectOption(idx, card, step.correct);
+                    grid.appendChild(card);
+                });
+                area.appendChild(grid);
+
+            } else if (step.type === 'minigame') {
+                matchedPairsCount = 0;
+                let mBox = document.createElement('div');
+                mBox.className = 'matching-container';
+                mBox.innerHTML = `
+                    <h3 style="color: #4a150b; margin-top:0; font-size: 1.1rem;">🎮 Padankan Kad dengan Betul (+5 Markah)</h3>
+                    <p style="font-size:0.9rem; color:#5d4037; margin-bottom:10px;">Klik kad watak dan padankan dengan keterangan yang betul.</p>
+                    <div class="matching-grid" id="matchGrid"></div>
+                `;
+                area.appendChild(mBox);
+
+                let matchGrid = document.getElementById('matchGrid');
+                let shuffledPairs = [...step.pairs].sort(() => Math.random() - 0.5);
+
+                shuffledPairs.forEach((item) => {
+                    let mCard = document.createElement('div');
+                    mCard.className = 'match-item';
+                    mCard.innerText = item.text;
+                    mCard.dataset.id = item.id;
+                    mCard.onclick = () => handleMatchClick(mCard, step.pairs.length / 2);
+                    matchGrid.appendChild(mCard);
+                });
+            }
         }
 
-        function selectOption(idx, card) {
+        function selectOption(idx, card, correctIdx) {
             if (!canAnswer) return;
             canAnswer = false;
-            let q = questions[currentIdx];
             let cards = document.querySelectorAll('.option-card');
 
-            if (idx === q.correct) {
+            if (idx === correctIdx) {
                 card.classList.add('correct');
                 playSFX('correct');
                 score += 5;
                 fireConfetti();
             } else {
                 card.classList.add('wrong');
-                cards[q.correct].classList.add('correct');
+                cards[correctIdx].classList.add('correct');
                 playSFX('wrong');
             }
 
             document.getElementById('scoreText').innerText = score;
 
             setTimeout(() => {
-                currentIdx++;
-                if (currentIdx < questions.length) {
-                    loadQuestion();
+                currentStep++;
+                if (currentStep < gameFlow.length) {
+                    loadStep();
                 } else {
-                    document.getElementById('gameScreen').classList.add('hidden');
-                    document.getElementById('endScreen').classList.remove('hidden');
-                    document.getElementById('finalScore').innerText = score;
-                    if (bgmInterval) clearInterval(bgmInterval);
-                    playSFX('win');
-                    fireConfetti();
+                    finishGame();
                 }
             }, 1500);
         }
 
+        function handleMatchClick(card, totalPairs) {
+            if (card.classList.contains('matched') || card.classList.contains('selected')) return;
+            playTone(400, 'sine', 0.1, 0.2);
+
+            if (!selectedMatch) {
+                selectedMatch = card;
+                card.classList.add('selected');
+            } else {
+                if (selectedMatch.dataset.id === card.dataset.id) {
+                    selectedMatch.classList.remove('selected');
+                    selectedMatch.classList.add('matched');
+                    card.classList.add('matched');
+                    selectedMatch = null;
+                    matchedPairsCount++;
+                    playSFX('correct');
+                    score += 2;
+                    document.getElementById('scoreText').innerText = score;
+
+                    if (matchedPairsCount === totalPairs) {
+                        fireConfetti();
+                        setTimeout(() => {
+                            currentStep++;
+                            if (currentStep < gameFlow.length) {
+                                loadStep();
+                            } else {
+                                finishGame();
+                            }
+                        }, 1200);
+                    }
+                } else {
+                    card.classList.add('selected');
+                    playSFX('wrong');
+                    let prev = selectedMatch;
+                    setTimeout(() => {
+                        prev.classList.remove('selected');
+                        card.classList.remove('selected');
+                    }, 500);
+                    selectedMatch = null;
+                }
+            }
+        }
+
+        function finishGame() {
+            document.getElementById('gameScreen').classList.add('hidden');
+            document.getElementById('endScreen').classList.remove('hidden');
+            document.getElementById('finalScore').innerText = score;
+            if (bgmInterval) clearInterval(bgmInterval);
+            playSFX('win');
+            fireConfetti();
+        }
+
+        // --- SKRIP ANIMASI KANVAS ---
+        const animCanvas = document.getElementById('animCanvas');
+        const actx = animCanvas.getContext('2d');
+        let animFrame = 0;
+
+        function resizeAnimCanvas() {
+            if(animCanvas.parentElement) {
+                animCanvas.width = animCanvas.parentElement.clientWidth;
+                animCanvas.height = animCanvas.parentElement.clientHeight;
+            }
+        }
+        window.addEventListener('resize', resizeAnimCanvas);
+        resizeAnimCanvas();
+
+        function drawScene() {
+            actx.clearRect(0, 0, animCanvas.width, animCanvas.height);
+            animFrame += 0.05;
+
+            let w = animCanvas.width;
+            let h = animCanvas.height;
+
+            actx.fillStyle = '#81c784';
+            actx.fillRect(0, h - 25, w, 25);
+
+            let treeX = w * 0.25;
+            let treeY = h - 25;
+            actx.fillStyle = '#5d4037';
+            actx.fillRect(treeX - 10, treeY - 60, 20, 65);
+            actx.fillStyle = '#2e7d32';
+            actx.beginPath();
+            actx.arc(treeX, treeY - 65, 38, 0, Math.PI * 2);
+            actx.fill();
+
+            let dogX = w * 0.55 + Math.sin(animFrame) * 12;
+            let dogY = h - 40;
+            actx.fillStyle = '#d7ccc8';
+            actx.fillRect(dogX, dogY, 30, 18);
+            actx.fillStyle = '#8d6e63';
+            actx.fillRect(dogX + 22, dogY - 8, 12, 12);
+
+            let deerJump = Math.abs(Math.sin(animFrame * 2)) * 10;
+            let deerX = w * 0.42;
+            let deerY = h - 40 - deerJump;
+            
+            actx.fillStyle = '#ffffff';
+            actx.strokeStyle = '#b0bec5';
+            actx.lineWidth = 1.5;
+            actx.beginPath();
+            actx.arc(deerX, deerY, 12, 0, Math.PI * 2);
+            actx.fill();
+            actx.stroke();
+
+            actx.beginPath();
+            actx.arc(deerX + 10, deerY - 8, 8, 0, Math.PI * 2);
+            actx.fill();
+            actx.stroke();
+
+            actx.strokeStyle = '#ff5722';
+            actx.lineWidth = 3;
+            actx.beginPath();
+            actx.moveTo(deerX, deerY + 8);
+            actx.lineTo(dogX, dogY + 4);
+            actx.stroke();
+
+            actx.fillStyle = '#1b5e20';
+            actx.font = 'bold 12px Georgia';
+            actx.fillText('🌳 Pelanduk Putih Menendang Anjing Pemburu', 15, 22);
+
+            requestAnimationFrame(drawScene);
+        }
+        drawScene();
+
+        // --- SISTEM KONFETI ---
         const canvas = document.getElementById('confetti-canvas');
         const ctx = canvas.getContext('2d');
         let particles = [];
