@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Game Episod 4: Peta Pengembaraan Parameswara</title>
+    <title>Game Episod 5: Sening Ujong & Muara Sungai Bertam</title>
     <style>
         :root {
             --primary-brown: #2d150b;
@@ -263,8 +263,8 @@
 
         <!-- SKRIN MULA -->
         <div id="startScreen" class="start-screen">
-            <h1 class="title-text">🏛️ EPISOD 4: BERUNDUR KE MUAR</h1>
-            <p class="subtitle-text"><b>Kembara Kesultanan Melayu Klasik</b><br>Uji minda anda mengenai ancaman di Temasik dan persinggahan di Muar. Setiap jawapan betul bernilai <b>5 Markah</b>!</p>
+            <h1 class="title-text">🏛️ EPISOD 5: SENING UJONG & SUNGAI BERTAM</h1>
+            <p class="subtitle-text"><b>Kembara Kesultanan Melayu Klasik</b><br>Uji minda mengenai Sening Ujong, pelantikan pemerintah, dan ketibaan di Muara Sungai Bertam. Setiap jawapan betul bernilai <b>5 Markah</b>!</p>
             <button class="btn-start" onclick="startGame()">MULA PENGEMBARAAN ⚔️</button>
         </div>
 
@@ -287,15 +287,15 @@
         <!-- SKRIN TAMAT -->
         <div id="endScreen" class="end-screen hidden">
             <h1 class="title-text">🎉 TAHNIAH! MISI SELESAI 🎉</h1>
-            <p class="subtitle-text" style="font-size: 1.3rem;">Anda telah berjaya mengharungi kembara di Laci 4 dengan cemerlang!</p>
+            <p class="subtitle-text" style="font-size: 1.3rem;">Anda telah berjaya mengharungi kembara di Laci 5 dengan cemerlang!</p>
             
             <div style="font-size: 2.3rem; font-weight: 800; color: #4a150b; margin: 15px 0; background: #fff3e0; padding: 10px 20px; border-radius: 12px; border: 2px solid #b8860b;">
                 JUMLAH MARKAH: <span id="finalScore">0</span> / 25
             </div>
 
             <div class="next-laci-box">
-                <h2 style="margin:0; color: #e65100; font-size: 1.4rem;">➡️ TERUS KE LACI LIMA!</h2>
-                <p style="margin:8px 0 0 0; color: #3e2723; font-size: 1.1rem;">Tahniah! Sila bergerak ke <b>Laci Lima: Sening Ujong & Muara Sungai Bertam</b> untuk babak seterusnya!</p>
+                <h2 style="margin:0; color: #e65100; font-size: 1.4rem;">➡️ TERUS KE LACI ENAM!</h2>
+                <p style="margin:8px 0 0 0; color: #3e2723; font-size: 1.1rem;">Tahniah! Sila bergerak ke <b>Laci Enam: Pelanduk Putih dan Pembukaan Melaka</b> untuk babak seterusnya!</p>
             </div>
 
             <button class="btn-start" onclick="restartGame()" style="margin-top: 20px;">MAIN SEMULA 🔄</button>
@@ -316,7 +316,8 @@
             }
         }
 
-        function playTone(freq, type, duration, vol = 0.1) {
+        // Dilaraskan volum (vol) lebih tinggi supaya bunyi lebih jelas/kuat
+        function playTone(freq, type, duration, vol = 0.3) {
             if (isMuted || !audioCtx) return;
             try {
                 let osc = audioCtx.createOscillator();
@@ -339,7 +340,7 @@
             let noteIdx = 0;
             bgmInterval = setInterval(() => {
                 if (!isMuted) {
-                    playTone(notes[noteIdx], 'triangle', 0.4, 0.04);
+                    playTone(notes[noteIdx], 'triangle', 0.4, 0.1); // BGM lebih jelas
                     noteIdx = (noteIdx + 1) % notes.length;
                 }
             }, 500);
@@ -349,14 +350,16 @@
             initAudio();
             if (isMuted) return;
             if (type === 'correct') {
-                playTone(523.25, 'sine', 0.15, 0.2);
-                setTimeout(() => playTone(659.25, 'sine', 0.2, 0.2), 120);
+                playTone(523.25, 'sine', 0.2, 0.4);
+                setTimeout(() => playTone(659.25, 'sine', 0.25, 0.4), 120);
+                setTimeout(() => playTone(783.99, 'sine', 0.3, 0.4), 240);
             } else if (type === 'wrong') {
-                playTone(160, 'sawtooth', 0.25, 0.2);
+                playTone(140, 'sawtooth', 0.3, 0.4);
+                setTimeout(() => playTone(110, 'sawtooth', 0.3, 0.4), 150);
             } else if (type === 'win') {
-                let winNotes = [392, 523.25, 659.25, 783.99];
+                let winNotes = [392, 523.25, 659.25, 783.99, 1046.50];
                 winNotes.forEach((n, i) => {
-                    setTimeout(() => playTone(n, 'sine', 0.3, 0.25), i * 140);
+                    setTimeout(() => playTone(n, 'sine', 0.35, 0.45), i * 150);
                 });
             }
         }
@@ -366,50 +369,50 @@
             document.getElementById('audioToggle').innerText = isMuted ? '🔇' : '🎵';
         }
 
-        // Soalan Episod 4 (Fokus Temasik & Muar sahaja)
+        // Soalan Episod 5 (Sening Ujong, Pelantikan Pemerintah, Muara Sungai Bertam + KBAT)
         const questions = [
             {
-                q: "Apakah sebab utama Parameswara membuat keputusan berundur meninggalkan Temasik?",
-                options: [
-                    "Baginda mendapat maklumat mengenai ancaman serangan daripada kerajaan Siam",
-                    "Kawasan Temasik mengalami kemarau panjang dan kekurangan air bersih",
-                    "Baginda mahu menubuhkan kerajaan baharu di kepulauan Borneo"
-                ],
-                correct: 0
-            },
-            {
-                q: "Selepas meninggalkan Temasik, apakah lokasi persinggahan pertama yang dituju oleh Parameswara?",
+                q: "Selepas meninggalkan Muar, apakah lokasi seterusnya yang dituju oleh Parameswara dalam perjalanan baginda?",
                 options: [
                     "Sening Ujong",
-                    "Muar",
+                    "Temasik",
                     "Melaka"
                 ],
-                correct: 1
+                correct: 0
             },
             {
-                q: "Mengapakah Parameswara dan pengikutnya tidak jadi membina pusat pemerintahan yang kekal di Muar?",
+                q: "Apakah tindakan penting yang dilakukan oleh Parameswara semasa berada di Sening Ujong?",
                 options: [
-                    "Kerana kawasan tersebut didapati mempunyai terlalu banyak biawak",
-                    "Kerana tanah di Muar tidak subur untuk pertanian",
-                    "Kerana muara sungainya terlalu cetek untuk kapal pedagang"
+                    "Melantik seorang wakil pemerintah untuk menguruskan kawasan tersebut",
+                    "Membina kota pertahanan batu yang besar dan kukuh",
+                    "Membuka pelabuhan bebas cukai antarabangsa"
                 ],
                 correct: 0
             },
             {
-                q: "Apakah kelebihan geografi kawasan Muar yang menarik minat Parameswara untuk singgah di situ?",
+                q: "Selepas meninggalkan Sening Ujong, di manakah tempat persinggahan seterusnya bagi Parameswara dan pengikutnya?",
                 options: [
-                    "Kedudukannya yang strategik sebagai laluan perlindungan sementara",
-                    "Kawasan tersebut merupakan pusat empayar perdagangan antarabangsa yang besar",
-                    "Terdapat kemudahan pelabuhan batu Arang yang lengkap"
+                    "Muara Sungai Bertam",
+                    "Pahang Tua",
+                    "Pulau Pinang"
                 ],
                 correct: 0
             },
             {
-                q: "Jika anda berada di tempat Parameswara ketika menghadapi ancaman musuh yang kuat, apakah tindakan paling rasional yang harus diambil untuk menyelamatkan rakyat?",
+                q: "Apakah ciri persekitaran fizikal yang terdapat di lokasi persinggahan baginda di muara Sungai Bertam?",
                 options: [
-                    "Merancang strategi berundur secara teratur demi keselamatan dan kelangsungan hidup",
-                    "Berlawan sendirian tanpa bantuan pengikut di medan perang",
-                    "Menyerah diri dan membiarkan musuh mengambil alih seluruh tanah air"
+                    "Sebuah perkampungan nelayan",
+                    "Sebuah kota istana yang tersergam indah",
+                    "Kawasan padang pasir yang luas"
+                ],
+                correct: 0
+            },
+            {
+                q: "[SOALAN KBAT] Mengapakah tindakan melantik wakil pemerintah di wilayah yang disinggahi seperti Sening Ujong merupakan langkah kepimpinan yang sangat strategik?",
+                options: [
+                    "Bagi memastikan kestabilan pentadbiran dan keselamatan wilayah tersebut sentiasa terpelihara",
+                    "Supaya baginda tidak perlu lagi kembali semula ke wilayah berkenaan selama-lamanya",
+                    "Untuk menyerahkan kuasa penuh kepada penduduk tempatan tanpa sebarang syarat"
                 ],
                 correct: 0
             }
@@ -464,7 +467,7 @@
                 playSFX('correct');
                 score += 5; 
                 updateScoreUI();
-                fireConfetti(0.3);
+                fireConfetti(0.8); // Konfeti lebih meriah
             } else {
                 cardEl.classList.add('wrong');
                 allCards[q.correct].classList.add('correct');
@@ -512,37 +515,37 @@
         resizeCanvas();
 
         function createParticle(x, y) {
-            const colors = ['#b8860b', '#ffd700', '#d72638', '#4a150b', '#2e7d32'];
+            const colors = ['#b8860b', '#ffd700', '#d72638', '#4a150b', '#2e7d32', '#ff4081', '#00e676'];
             return {
                 x: x,
                 y: y,
-                size: Math.random() * 8 + 4,
+                size: Math.random() * 10 + 5,
                 color: colors[Math.floor(Math.random() * colors.length)],
-                vx: (Math.random() - 0.5) * 12,
-                vy: (Math.random() - 2) * 10 - 4,
-                gravity: 0.25,
+                vx: (Math.random() - 0.5) * 16,
+                vy: (Math.random() - 2) * 12 - 4,
+                gravity: 0.28,
                 opacity: 1,
                 rotation: Math.random() * 360,
-                spin: (Math.random() - 0.5) * 10
+                spin: (Math.random() - 0.5) * 12
             };
         }
 
         function fireConfetti(ratio = 0.5) {
-            let count = Math.floor(60 * ratio);
+            let count = Math.floor(90 * ratio);
             for (let i = 0; i < count; i++) {
                 particles.push(createParticle(window.innerWidth / 2, window.innerHeight / 2));
             }
         }
 
         function fireConfettiCelebration() {
-            let duration = 3000;
+            let duration = 4000;
             let end = Date.now() + duration;
             let interval = setInterval(() => {
                 if (Date.now() > end) {
                     return clearInterval(interval);
                 }
                 particles.push(createParticle(Math.random() * window.innerWidth, Math.random() * window.innerHeight * 0.5));
-            }, 50);
+            }, 40);
         }
 
         function updateParticles() {
@@ -551,7 +554,7 @@
                 p.x += p.vx;
                 p.y += p.vy;
                 p.vy += p.gravity;
-                p.opacity -= 0.015;
+                p.opacity -= 0.012;
                 p.rotation += p.spin;
 
                 ctx.save();
