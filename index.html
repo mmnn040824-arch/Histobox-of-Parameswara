@@ -36,7 +36,7 @@
             width: 100vw;
             height: 100vh;
             pointer-events: none;
-            z-index: 999;
+            z-index: 1; /* Diletakkan di bawah sekali supaya tidak sekat klik */
         }
 
         .game-container {
@@ -138,7 +138,7 @@
             box-shadow: 0 4px 8px rgba(0,0,0,0.08);
             min-height: 100px;
             position: relative;
-            z-index: 15;
+            z-index: 20;
         }
 
         .option-card:hover {
@@ -237,7 +237,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            z-index: 25;
+            z-index: 30;
             box-shadow: 0 2px 5px rgba(0,0,0,0.2);
         }
 
@@ -307,9 +307,6 @@
     </div>
 
     <script>
-        // -------------------------------------------------------------
-        // SISTEM AUDIO & MUZIK INTERAKTIF (WEB AUDIO API)
-        // -------------------------------------------------------------
         let audioCtx = null;
         let bgmInterval = null;
         let isMuted = false;
@@ -373,9 +370,6 @@
             document.getElementById('audioToggle').innerText = isMuted ? '🔇' : '🎵';
         }
 
-        // -------------------------------------------------------------
-        // BANK SOALAN (EPISOD 4: BERUNDUR KE MUAR & KISAH BIAWAK)
-        // -------------------------------------------------------------
         const questions = [
             {
                 q: "Apakah sebab utama Parameswara membuat keputusan berundur meninggalkan Temasik?",
@@ -433,9 +427,6 @@
             }
         ];
 
-        // -------------------------------------------------------------
-        // GAME LOGIC & STATE
-        // -------------------------------------------------------------
         let currentIdx = 0;
         let score = 0;
         let canAnswer = true;
@@ -521,9 +512,6 @@
             startGame();
         }
 
-        // -------------------------------------------------------------
-        // CONFETTI SYSTEM
-        // -------------------------------------------------------------
         const canvas = document.getElementById('confetti-canvas');
         const ctx = canvas.getContext('2d');
         let particles = [];
