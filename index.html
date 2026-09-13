@@ -3,24 +3,359 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pelanduk Putih</title>
+    <title>Episod 6: Pelanduk Putih & Melaka</title>
     <style>
-        body { background: #0f172a; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; font-family: 'Georgia', serif; }
-        .card { width: 90%; max-width: 420px; background: #fff; padding: 20px; border-radius: 16px; border: 4px solid #d4af37; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
-        .anim { width: 100%; height: 160px; background: #d1e7dd; border-radius: 10px; overflow: hidden; display: flex; justify-content: center; align-items: center; border: 2px solid #285238; margin-bottom: 15px; }
-        .anim img { width: 100%; height: 100%; object-fit: cover; }
-        .btn { background: #4a150b; color: #ffecb3; border: 2px solid #d4af37; padding: 10px 24px; font-size: 1rem; font-weight: bold; border-radius: 20px; cursor: pointer; margin-top: 10px; }
-        .btn:hover { background: #7b1fa2; }
+        * { box-sizing: border-box; font-family: 'Georgia', serif; user-select: none; }
+        body { margin: 0; padding: 0; min-height: 100vh; background: linear-gradient(135deg, #0d1b2a 0%, #1b263b 50%, #415a77 100%); display: flex; justify-content: center; align-items: center; overflow-x: hidden; position: relative; }
+        #confetti-canvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 100; }
+        .water-bg { position: absolute; bottom: 0; left: 0; width: 100%; height: 30vh; background: linear-gradient(to top, #1d3557, #457b9d); opacity: 0.7; z-index: 1; border-top: 4px solid #ffd700; }
+        .game-container { width: 90%; max-width: 800px; background: rgba(255, 255, 255, 0.96); border: 5px solid #d4af37; border-radius: 24px; padding: 25px; box-shadow: 0 20px 40px rgba(0,0,0,0.6); position: relative; z-index: 10; text-align: center; margin: 20px 0; }
+        .story-animation-box { width: 100%; height: 150px; background: #d1e7dd; border: 3px solid #285238; border-radius: 14px; position: relative; margin-bottom: 15px; overflow: hidden; display: flex; justify-content: center; align-items: center; box-shadow: inset 0 3px 6px rgba(0,0,0,0.15); }
+        .story-animation-box img { width: 100%; height: 100%; object-fit: cover; }
+        .ship-voyage-bar { width: 100%; height: 45px; background: #fff8e1; border: 2px solid #d4af37; border-radius: 12px; position: relative; margin-bottom: 15px; display: flex; align-items: center; padding: 0 15px; }
+        .moving-ship { position: absolute; left: 5%; font-size: 2rem; transition: left 0.8s cubic-bezier(0.34, 1.56, 0.64, 1); transform: translateY(-2px); z-index: 3; }
+        .voyage-label { font-size: 0.9rem; font-weight: bold; color: #b8860b; width: 100%; text-align: right; }
+        .header-info { display: flex; justify-content: space-between; align-items: center; background: #2b1d0c; color: #ffecb3; padding: 10px 20px; border-radius: 12px; margin-bottom: 15px; border: 2px solid #d4af37; font-weight: bold; }
+        .question-box { font-size: 1.1rem; font-weight: 700; color: #2c1d18; margin-bottom: 15px; line-height: 1.4; background: #fff8e1; padding: 15px; border-radius: 14px; border: 2px solid #ffe082; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .cards-grid { display: grid; grid-template-columns: 1fr; gap: 10px; margin-bottom: 10px; }
+        .option-card { background: #ffffff; border: 2px solid #d4af37; border-radius: 12px; padding: 14px 16px; cursor: pointer; transition: all 0.2s ease; font-size: 1rem; font-weight: 600; color: #3e2723; box-shadow: 0 4px 6px rgba(0,0,0,0.05); text-align: left; display: flex; align-items: center; gap: 12px; }
+        .option-card:hover { background: #fff3e0; border-color: #b8860b; transform: translateY(-2px); }
+        .option-card.correct { background: #c8e6c9 !important; border-color: #2e7d32 !important; color: #1b5e20 !important; }
+        .option-card.wrong { background: #ffcdd2 !important; border-color: #c62828 !important; color: #b71c1c !important; }
+        .option-badge { background: #f57f17; color: white; width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; flex-shrink: 0; font-size: 0.85rem; }
+        .matching-container { background: #fff8e1; border: 2px dashed #d4af37; border-radius: 14px; padding: 15px; margin-bottom: 15px; }
+        .matching-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 10px; }
+        .match-item { background: #ffffff; border: 2px solid #b8860b; border-radius: 10px; padding: 12px; font-size: 0.95rem; font-weight: bold; color: #3e2723; cursor: pointer; transition: all 0.2s; text-align: center; }
+        .match-item:hover { background: #ffe082; }
+        .match-item.selected { background: #ffb703; color: #fff; border-color: #e65100; }
+        .match-item.matched { background: #c8e6c9; color: #1b5e20; border-color: #2e7d32; cursor: default; opacity: 0.8; }
+        .btn-start { background: linear-gradient(45deg, #4a150b, #7b1fa2); color: #ffecb3; border: 2px solid #d4af37; padding: 14px 35px; font-size: 1.2rem; font-weight: bold; border-radius: 30px; cursor: pointer; box-shadow: 0 5px 15px rgba(0,0,0,0.3); transition: transform 0.2s; }
+        .btn-start:hover { transform: scale(1.05); }
+        .audio-btn { position: absolute; top: 15px; right: 15px; background: #4a150b; color: #ffecb3; border: 2px solid #d4af37; border-radius: 50%; width: 38px; height: 38px; cursor: pointer; font-size: 1rem; display: flex; align-items: center; justify-content: center; z-index: 20; }
+        .group-select { margin-bottom: 15px; text-align: left; background: #fff8e1; padding: 12px; border-radius: 10px; border: 2px solid #d4af37; }
+        .group-select select { width: 100%; padding: 8px; border-radius: 6px; border: 1px solid #b8860b; font-size: 1rem; font-weight: bold; color: #3e2723; background: #fff; }
+        .hidden { display: none !important; }
     </style>
 </head>
 <body>
-    <div class="card">
-        <div class="anim">
-            <img src="https://media.giphy.com/media/3oKIPnAiaMCws8nOsE/giphy.gif" alt="Animasi Pelanduk">
+
+    <canvas id="confetti-canvas"></canvas>
+    <div class="water-bg"></div>
+
+    <div class="game-container">
+        <button class="audio-btn" id="audioToggle" onclick="toggleSound()">🎵</button>
+
+        <!-- SKRIN MULA -->
+        <div id="startScreen" style="padding: 20px;">
+            <h1 style="color: #4a150b; font-size: 1.8rem; margin-bottom: 10px;">EPISOD 6: PELANDUK PUTIH & MELAKA</h1>
+            
+            <div class="group-select">
+                <label style="font-size: 0.95rem; font-weight: bold; color: #4a150b; display: block; margin-bottom: 5px;">Pilih Kumpulan Klasik:</label>
+                <select id="groupNameSelect">
+                    <option value="Kumpulan Tuah">⚔️ Kumpulan Tuah</option>
+                    <option value="Kumpulan Jebat">🗡️ Kumpulan Jebat</option>
+                    <option value="Kumpulan Kasturi">🛡️ Kumpulan Kasturi</option>
+                    <option value="Kumpulan Lekir">🏹 Kumpulan Lekir</option>
+                </select>
+            </div>
+
+            <p style="color: #5d4037; font-size: 1rem; margin-bottom: 20px;">Saksikan animasi, selesaikan cabaran, dan jawab soalan bijak bersama kumpulan anda!</p>
+            <button class="btn-start" onclick="startGame()">MULA KEMBARA 🐇🌳</button>
         </div>
-        <h2 style="color: #4a150b; margin: 10px 0; font-size: 1.3rem;">Kisah Pelanduk Putih</h2>
-        <p style="font-size: 0.9rem; color: #5d4037; line-height: 1.4;">Saksikan animasi di atas dan mulakan pengembaraan sejarah Melaka sekarang!</p>
-        <button class="btn" onclick="alert('Kembara Bermula!')">MULA 🐇</button>
+
+        <!-- SKRIN PERMAINAN -->
+        <div id="gameScreen" class="hidden">
+            <div class="story-animation-box">
+                <img src="https://media.giphy.com/media/3oKIPnAiaMCws8nOsE/giphy.gif" alt="Animasi Pelanduk">
+            </div>
+
+            <div class="ship-voyage-bar">
+                <div class="moving-ship" id="shipObj">🐇</div>
+                <div class="voyage-label" id="voyageText">Pelayaran: Peristiwa Pelanduk</div>
+            </div>
+
+            <div class="header-info">
+                <span id="displayGroup" style="color: #ffd700; font-size: 0.9rem;">Kumpulan: Tuah</span>
+                <span>⭐ Markah: <span id="scoreText">0</span> / 35</span>
+            </div>
+
+            <!-- KAWASAN KANDUNGAN UTAMA -->
+            <div id="contentArea"></div>
+        </div>
+
+        <!-- SKRIN TAMAT -->
+        <div id="endScreen" class="hidden" style="padding: 20px;">
+            <h1 style="color: #4a150b; font-size: 1.8rem;">🎉 TAHNIAH! SELESAI EPISOD 6 🎉</h1>
+            <p id="endGroupText" style="font-weight: bold; color: #b8860b; font-size: 1.1rem; margin-top: 10px;"></p>
+            <p style="color: #5d4037; font-size: 1rem; margin: 10px 0;">Jumlah Markah Keseluruhan:</p>
+            <div style="font-size: 2.2rem; font-weight: bold; color: #b8860b; margin-bottom: 20px;"><span id="finalScore">0</span> / 35</div>
+            <button class="btn-start" onclick="startGame()">MAIN SEMULA 🔄</button>
+        </div>
     </div>
+
+    <script>
+        let audioCtx = null;
+        let bgmInterval = null;
+        let isMuted = false;
+        let chosenGroup = "Kumpulan Tuah";
+
+        function initAudio() {
+            if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+        }
+
+        function playTone(freq, type, duration, vol = 0.3) {
+            if (isMuted || !audioCtx) return;
+            try {
+                let osc = audioCtx.createOscillator();
+                let gain = audioCtx.createGain();
+                osc.type = type;
+                osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+                gain.gain.setValueAtTime(vol, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + duration);
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start();
+                osc.stop(audioCtx.currentTime + duration);
+            } catch(e) {}
+        }
+
+        function startBGM() {
+            initAudio();
+            if (bgmInterval) clearInterval(bgmInterval);
+            let notes = [329.63, 392.00, 440.00, 523.25, 587.33];
+            let idx = 0;
+            bgmInterval = setInterval(() => {
+                if (!isMuted) {
+                    playTone(notes[idx], 'triangle', 0.35, 0.25);
+                    idx = (idx + 1) % notes.length;
+                }
+            }, 450);
+        }
+
+        function playSFX(type) {
+            initAudio();
+            if (isMuted) return;
+            if (type === 'correct') {
+                playTone(523.25, 'sine', 0.2, 0.6);
+                setTimeout(() => playTone(659.25, 'sine', 0.25, 0.6), 120);
+                setTimeout(() => playTone(783.99, 'sine', 0.3, 0.6), 240);
+            } else if (type === 'wrong') {
+                playTone(130, 'sawtooth', 0.35, 0.6);
+            } else if (type === 'win') {
+                [392, 523.25, 659.25, 783.99, 1046.50].forEach((n, i) => {
+                    setTimeout(() => playTone(n, 'sine', 0.3, 0.6), i * 130);
+                });
+            }
+        }
+
+        function toggleSound() {
+            isMuted = !isMuted;
+            document.getElementById('audioToggle').innerText = isMuted ? '🔇' : '🎵';
+        }
+
+        const gameFlow = [
+            { type: 'question', q: "Apakah peristiwa luar biasa yang disaksikan oleh Parameswara semasa baginda sedang berehat di bawah pokok Melaka?", options: ["Seekor rusa emas muncul membawa mahkota Diraja", "Hujan lebat turun dengan sangat deras secara tiba-tiba", "Seekor pelanduk putih menendang anjing pemburu baginda"], correct: 2, voyage: "📍 Peristiwa Pelanduk Putih" },
+            
+            { type: 'minigame', voyage: "🧩 Cabaran Minigame: Padankan Watak & Peristiwa!", pairs: [
+                { id: 1, text: "🐰 Pelanduk Putih" }, { id: 1, text: "Menendang anjing pemburu" },
+                { id: 2, text: "🌳 Pokok Melaka" }, { id: 2, text: "Tempat Parameswara bersandar" }
+            ]},
+
+            { type: 'question', q: "[SOALAN KBAT 1] Mengapakah tindakan seekor pelanduk putih kecil berani menendang anjing pemburu dianggap sebagai satu petanda yang sangat istimewa kepada Parameswara?", options: ["Ia melambangkan kekuatan semangat berani melawan musuh walaupun berbadan kecil", "Ia menunjukkan kawasan tersebut mempunyai sumber makanan yang sangat lumayan", "Ia membuktikan bahawa haiwan di hutan itu tidak takut kepada manusia"], correct: 0, voyage: "📍 Semangat Keberanian Pelanduk" },
+            { type: 'question', q: "Apakah keputusan penting yang dibuat oleh Parameswara setelah melihat ketangkasan dan keberanian pelanduk putih tersebut?", options: ["Baginda segera mengarahkan pengikutnya menangkap pelanduk itu untuk dijadikan peliharaan istana", "Baginda memutuskan untuk membuka sebuah negeri dan dinamakan sempena nama pokok tempat baginda bersandar", "Baginda beredar meninggalkan tempat itu kerana merasa bimbang akan keselamatan pengikutnya"], correct: 1, voyage: "📍 Keputusan Membuka Negeri" },
+            
+            { type: 'minigame', voyage: "🧩 Cabaran Minigame: Padankan Asal Usul Negeri!", pairs: [
+                { id: 3, text: "👑 Parameswara" }, { id: 3, text: "Pengasas Kesultanan Melaka" },
+                { id: 4, text: "🌊 Muara Sungai Bertam" }, { id: 4, text: "Lokasi strategik pesisiran pantai" }
+            ]},
+
+            { type: 'question', q: "Sempena nama apakah negeri baharu yang diasaskan oleh Parameswara selepas peristiwa di tepi sungai tersebut?", options: ["Sempena nama Pokok Melaka", "Sempena nama Sungai Bertam", "Sempena nama Sening Ujong"], correct: 0, voyage: "📍 Asal Usul Nama Melaka" },
+            { type: 'question', q: "[SOALAN KBAT 2] Pada pandangan anda, bagaimanakah pemilihan lokasi strategik di pesisiran pantai muara sungai membantu perkembangan Melaka menjadi sebuah empayar perdagangan antarabangsa yang unggul?", options: ["Menjadikan kawasan tersebut terpencil dan sukar dikesan oleh mana-mana pihak musuh", "Membolehkan penduduk tempatan menjalankan aktiviti perlombongan emas secara besar-besaran", "Membolehkan kapal pedagang dari timur dan barat singgah dengan mudah serta selamat untuk berdagang"], correct: 2, voyage: "🏆 Empayar Melaka Berjaya Diasaskan!" }
+        ];
+
+        let currentStep = 0;
+        let score = 0;
+        let canAnswer = true;
+        let selectedMatch = null;
+        let matchedPairsCount = 0;
+
+        function startGame() {
+            chosenGroup = document.getElementById('groupNameSelect').value;
+            document.getElementById('displayGroup').innerText = chosenGroup;
+            startBGM();
+            document.getElementById('startScreen').classList.add('hidden');
+            document.getElementById('gameScreen').classList.remove('hidden');
+            document.getElementById('endScreen').classList.add('hidden');
+            currentStep = 0;
+            score = 0;
+            loadStep();
+        }
+
+        function loadStep() {
+            canAnswer = true;
+            let step = gameFlow[currentStep];
+            document.getElementById('voyageText').innerText = step.voyage;
+
+            let posPercent = 5 + (currentStep / (gameFlow.length - 1)) * 80;
+            document.getElementById('shipObj').style.left = `${posPercent}%`;
+
+            let area = document.getElementById('contentArea');
+            area.innerHTML = '';
+
+            if (step.type === 'question') {
+                let qBox = document.createElement('div');
+                qBox.className = 'question-box';
+                qBox.innerText = step.q;
+                area.appendChild(qBox);
+
+                let grid = document.createElement('div');
+                grid.className = 'cards-grid';
+                const labels = ['A', 'B', 'C'];
+
+                step.options.forEach((opt, idx) => {
+                    let card = document.createElement('div');
+                    card.className = 'option-card';
+                    card.innerHTML = `<div class="option-badge">${labels[idx]}</div> <span>${opt}</span>`;
+                    card.onclick = () => selectOption(idx, card, step.correct);
+                    grid.appendChild(card);
+                });
+                area.appendChild(grid);
+
+            } else if (step.type === 'minigame') {
+                matchedPairsCount = 0;
+                let mBox = document.createElement('div');
+                mBox.className = 'matching-container';
+                mBox.innerHTML = `
+                    <h3 style="color: #4a150b; margin-top:0; font-size: 1.1rem;">🎮 Padankan Kad dengan Betul (+2 Markah)</h3>
+                    <p style="font-size:0.9rem; color:#5d4037; margin-bottom:10px;">Klik kad watak dan padankan dengan keterangan yang betul.</p>
+                    <div class="matching-grid" id="matchGrid"></div>
+                `;
+                area.appendChild(mBox);
+
+                let matchGrid = document.getElementById('matchGrid');
+                let shuffledPairs = [...step.pairs].sort(() => Math.random() - 0.5);
+
+                shuffledPairs.forEach((item) => {
+                    let mCard = document.createElement('div');
+                    mCard.className = 'match-item';
+                    mCard.innerText = item.text;
+                    mCard.dataset.id = item.id;
+                    mCard.onclick = () => handleMatchClick(mCard, step.pairs.length / 2);
+                    matchGrid.appendChild(mCard);
+                });
+            }
+        }
+
+        function selectOption(idx, card, correctIdx) {
+            if (!canAnswer) return;
+            canAnswer = false;
+            let cards = document.querySelectorAll('.option-card');
+
+            if (idx === correctIdx) {
+                card.classList.add('correct');
+                playSFX('correct');
+                score += 5;
+                fireConfetti();
+            } else {
+                card.classList.add('wrong');
+                cards[correctIdx].classList.add('correct');
+                playSFX('wrong');
+            }
+
+            document.getElementById('scoreText').innerText = score;
+
+            setTimeout(() => {
+                currentStep++;
+                if (currentStep < gameFlow.length) {
+                    loadStep();
+                } else {
+                    finishGame();
+                }
+            }, 1500);
+        }
+
+        function handleMatchClick(card, totalPairs) {
+            if (card.classList.contains('matched') || card.classList.contains('selected')) return;
+            playTone(400, 'sine', 0.1, 0.2);
+
+            if (!selectedMatch) {
+                selectedMatch = card;
+                card.classList.add('selected');
+            } else {
+                if (selectedMatch.dataset.id === card.dataset.id) {
+                    selectedMatch.classList.remove('selected');
+                    selectedMatch.classList.add('matched');
+                    card.classList.add('matched');
+                    selectedMatch = null;
+                    matchedPairsCount++;
+                    playSFX('correct');
+                    score += 2;
+                    document.getElementById('scoreText').innerText = score;
+
+                    if (matchedPairsCount === totalPairs) {
+                        fireConfetti();
+                        setTimeout(() => {
+                            currentStep++;
+                            if (currentStep < gameFlow.length) {
+                                loadStep();
+                            } else {
+                                finishGame();
+                            }
+                        }, 1200);
+                    }
+                } else {
+                    card.classList.add('selected');
+                    playSFX('wrong');
+                    let prev = selectedMatch;
+                    setTimeout(() => {
+                        prev.classList.remove('selected');
+                        card.classList.remove('selected');
+                    }, 500);
+                    selectedMatch = null;
+                }
+            }
+        }
+
+        function finishGame() {
+            document.getElementById('gameScreen').classList.add('hidden');
+            document.getElementById('endScreen').classList.remove('hidden');
+            document.getElementById('endGroupText').innerText = `Tahniah kepada ${chosenGroup}!`;
+            document.getElementById('finalScore').innerText = score;
+            if (bgmInterval) clearInterval(bgmInterval);
+            playSFX('win');
+            fireConfetti();
+        }
+
+        // --- SISTEM KONFETI ---
+        const canvas = document.getElementById('confetti-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        window.addEventListener('resize', () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; });
+        canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+
+        function fireConfetti() {
+            for (let i = 0; i < 70; i++) {
+                particles.push({
+                    x: window.innerWidth / 2, y: window.innerHeight / 2,
+                    vx: (Math.random() - 0.5) * 15, vy: (Math.random() - 2) * 10,
+                    size: Math.random() * 8 + 4, color: ['#d4af37', '#e63946', '#2a9d8f', '#ffb703'][Math.floor(Math.random()*4)],
+                    alpha: 1
+                });
+            }
+        }
+
+        function updateConfetti() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach((p, i) => {
+                p.x += p.vx; p.y += p.vy; p.vy += 0.3; p.alpha -= 0.02;
+                ctx.fillStyle = p.color; ctx.globalAlpha = Math.max(0, p.alpha);
+                ctx.fillRect(p.x, p.y, p.size, p.size);
+                if (p.alpha <= 0) particles.splice(i, 1);
+            });
+            requestAnimationFrame(updateConfetti);
+        }
+        updateConfetti();
+    </script>
 </body>
 </html>
