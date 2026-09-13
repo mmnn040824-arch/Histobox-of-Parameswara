@@ -20,9 +20,7 @@
             margin: 0;
             padding: 0;
             min-height: 100vh;
-            background: linear-gradient(rgba(20, 10, 5, 0.7), rgba(20, 10, 5, 0.7)), 
-                        url('image_19881d.jpg') no-repeat center center fixed;
-            background-size: cover;
+            background: linear-gradient(135deg, #2d150b 0%, #4a150b 50%, #1a0c06 100%);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -36,7 +34,7 @@
             width: 100vw;
             height: 100vh;
             pointer-events: none;
-            z-index: 1; /* Diletakkan di bawah sekali supaya tidak sekat klik */
+            z-index: 1;
         }
 
         .game-container {
@@ -283,9 +281,7 @@
 
             <div class="question-box" id="questionText">Soalan akan dipaparkan di sini...</div>
 
-            <div class="cards-grid" id="optionsGrid">
-                <!-- Kad jawapan interaktif -->
-            </div>
+            <div class="cards-grid" id="optionsGrid"></div>
         </div>
 
         <!-- SKRIN TAMAT -->
